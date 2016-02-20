@@ -5,9 +5,179 @@
     <description>Pufan Jiang&#39;s personal blog, including lots of tech blogs, photo shooting etc.</description>
     <link>http://huangxuan.me/</link>
     <atom:link href="http://huangxuan.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 Feb 2016 14:52:08 -0500</pubDate>
-    <lastBuildDate>Fri, 19 Feb 2016 14:52:08 -0500</lastBuildDate>
+    <pubDate>Fri, 19 Feb 2016 20:54:44 -0500</pubDate>
+    <lastBuildDate>Fri, 19 Feb 2016 20:54:44 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Cracking Code Challenge - Two pointers</title>
+        <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR;&lt;/h2&gt;
+
+&lt;p&gt;Two pointers is an idea applicable to many algorithm challenge. The key idea is to think in a parallel way, rather than sequential way which is more natural to humans.&lt;/p&gt;
+
+&lt;p&gt;In this post, I will show how to apply the idea of two pointers to these example problems:&lt;br /&gt;
+1.&lt;a href=&quot;https://leetcode.com/problems/intersection-of-two-linked-lists/&quot;&gt;Intersection of Two Linked Lists&lt;/a&gt;&lt;br /&gt;
+2.&lt;a href=&quot;https://leetcode.com/problems/merge-sorted-array/&quot;&gt;Merge Sorted Array&lt;/a&gt;&lt;br /&gt;
+3.&lt;a href=&quot;https://leetcode.com/problems/container-with-most-water/&quot;&gt;Container With Most Water&lt;/a&gt;&lt;br /&gt;
+4.&lt;a href=&quot;https://leetcode.com/problems/trapping-rain-water/&quot;&gt;Trapping Rain Water&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use-two-pointers-idea&quot;&gt;How to use two pointers idea&lt;/h2&gt;
+
+&lt;p&gt;Whenever you find the problem has two boundaries, or two chains (a human-readable word for LinkedList XD) etc. you could try with two pointers idea.&lt;/p&gt;
+
+&lt;p&gt;The trick for using two pointers is three step:&lt;br /&gt;
+1.Identify where to begin, i.e. where are the start points of the two pointers.&lt;br /&gt;
+2.Identify how to move on, i.e. each step how should the two pointers ‘walk’, which of them should ‘walk’.&lt;br /&gt;
+3.Identify when to stop, i.e. the condition to stop or swap turn in ‘walk’.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-1---intersection-of-two-linked-lists&quot;&gt;Example 1 - Intersection of Two Linked Lists&lt;/h2&gt;
+
+&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/intersection-of-two-linked-lists/&quot;&gt;Intersection of Two Linked Lists&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;There are lots of ways to solve this problem, with tradeoff among time, space and development complexity.&lt;/p&gt;
+
+&lt;p&gt;When analyzing complexity of algorithm, we suppose both linked list has length N, and number of nodes before intersection is L.&lt;/p&gt;
+
+&lt;h3 id=&quot;most-straightforward-way&quot;&gt;Most straightforward way&lt;/h3&gt;
+
+&lt;p&gt;The most straightforward way is first iterate one linked list, store every node in a hash table. Then iterate the second linked list, check whether the node is already in hash table for each iteration and stop when find the first one.&lt;/p&gt;
+
+&lt;p&gt;The time complexity is O(N + L). And space complexity is O(N).&lt;/p&gt;
+
+&lt;h3 id=&quot;improve-space-complexity-to-o1&quot;&gt;Improve space complexity to O(1)&lt;/h3&gt;
+
+&lt;p&gt;Suppose the lengths of two linked lists are the same, i.e. before intersection the two linked lists have same number of nodes, then if there are two pointers walking through two linked list at same time and speed, then the first time they meet it the intersection.&lt;/p&gt;
+
+&lt;p&gt;Now the problem is we are not guaranteed that these two linked list are of same length. Could we possibly make them the same? &lt;strong&gt;stop here, and think&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Of course! If we could calculate the difference of lengths of two linked list, then just pass several nodes of the longer linked list, then the lengths are the same!&lt;/p&gt;
+
+&lt;p&gt;This algorithm has O(2N + 2L) time complexity but only O(1) space complexity.&lt;/p&gt;
+
+&lt;p&gt;The solution of this method is actually given &lt;a href=&quot;http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/&quot;&gt;here at method 3&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;improve-time-complexity-to-o2l&quot;&gt;Improve time complexity to O(2L)&lt;/h3&gt;
+
+&lt;p&gt;This is my original solution that I never find online. This solution actually use more space but is faster averagely.&lt;/p&gt;
+
+&lt;p&gt;So the problem of our naive solution is that we traverse the two linked lists one by one. Notice these two linked lists are actually symmetric, so that we could check if node in list A has been met in list B ……. and also if node in list B has been met in list A &lt;strong&gt;at same time&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;p&gt;Given this idea, we could have two pointers starting together, each has a hash table saving iterated nodes. Each iteration, both pointers check if the new node is in hash table of the other pointer. And it could stop as soon as one of pointer find such a node, which is the intersection.&lt;/p&gt;
+
+&lt;p&gt;This algorithm gives O(2L) time complexity and O(2L) space complexity. So in worst case, this is O(2N) time complexity and O(2N) space complexity. But averagely it has O(N) time complexity and O(N) space complexity.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-2---merge-sorted-array&quot;&gt;Example 2 - Merge Sorted Array&lt;/h2&gt;
+
+&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/merge-sorted-array/&quot;&gt;Merge Sorted Array&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is a great example to use two pointer idea. If you go through two arrays one by one, then either you could first save one array in a hash table, and check existence when traversing the second array, or you could use binary search when traversing both arrays. Both methods sacrifice time or space to some extend.&lt;/p&gt;
+
+&lt;p&gt;The actual trick in this problem is the second step of two pointers solution, i.e. how to move on. Notice the arrays are sorted, so that we are guaranteed the pointed value is increasing. This indicates, if pointer A is pointing to larger number than pointer B, then any number after pointer A could not be the same as the number at pointer B.&lt;/p&gt;
+
+&lt;p&gt;This key idea results in this algorithm.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-3----container-with-most-water&quot;&gt;Example 3 – Container With Most Water&lt;/h2&gt;
+
+&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/container-with-most-water/&quot;&gt;Container With Most Water&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;As you may noticed, the constraint of this problem that requires two boundaries falls in pattern of two pointers. So a quick idea is using two pointers as two boundaries, and to find two position than could hold most water.&lt;/p&gt;
+
+&lt;p&gt;Now let’s go through three steps in two pointers problem.&lt;/p&gt;
+
+&lt;p&gt;First, where to begin? The naive way is go from one side to another side and search all possible combinations. This will result in O(N^2) time complexity. It sucks. A commonly used trick is we one pointer go from begin and another from end, then two pointers go face to face towards middle. The key idea is a little bit similar to dynamic programming, i.e. if I could know what happen given boundary [i, j], then I could calculate the condition given boundary [i + 1, j - 1] really fast.&lt;/p&gt;
+
+&lt;p&gt;Second, how to move on? To solve the problem with O(N) algorithm, each iteration must give one choice. What I mean is, given condition of [i, j], we could then check [i + 1, j] and [i, j - 1] and to iteratively find the result, but in this way it still is a O(N^2) algorithm. If we could eliminate one of the possibility, then the algorithm would be O(N)! Actually we could do that. If height at i is smaller than height at j, then there’s no reason for us to check [i, j - 1]! So we move the one with smaller height toward the larger one.&lt;/p&gt;
+
+&lt;p&gt;Third, when to stop? Obviously, when two pointers meet, we stop.&lt;/p&gt;
+
+&lt;p&gt;The time complexity of this algorithm is O(N) and space complexity is O(1).&lt;/p&gt;
+
+&lt;h2 id=&quot;example-4----trapping-rain-water&quot;&gt;Example 4 – Trapping Rain Water&lt;/h2&gt;
+
+&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/trapping-rain-water/&quot;&gt;Trapping Rain Water&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Although this is a hard level problem in leetcode, given the solution to above problem, it should be easy to think of the solution to this one.&lt;/p&gt;
+
+&lt;p&gt;To briefly explain the solution to this problem, we use two pointer start from begin and end, and go toward each other. Each time we move the pointer with shorter block to the one with bigger, and calculate the water trapping within the range. We stop when two pointers meet.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 19 Feb 2016 20:53:00 -0500</pubDate>
+        <link>http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-Two-pointers/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-Two-pointers/</guid>
+        
+        <category>Two Pointers</category>
+        
+        <category>Code Challenge</category>
+        
+        <category>leetcode</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Cracking Code Challenge the Hard Way</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;This blog series are to help new grads like me to prepare algorithm interview/tech interview. These posts focus on common useful data structures, algorithms, test strategies and some tricks to help you to crack code challenge!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;situation-at-tech-industry-is-not-that-bad&quot;&gt;Situation at tech industry is not that bad&lt;/h2&gt;
+
+&lt;p&gt;Yes, many said another tech bubble is bursting. Twitter fired around 8 percent of their employees, much are from engineer and product teams[1]. LinkedIn’s value drop by almost half (nearly 11 billions) in one single night[2]. STEM Opt extension is under possibility to be cut[3].&lt;/p&gt;
+
+&lt;p&gt;But, as far as I have observed, the situation is not that bad. Tech companies still pay large amount of dollars to provide flights and hotels for interviewees. The head counts of large tech companies(e.g. FLAG) may be reduced but overall head counts, including great number of emerging small companies, is still amazingly high. New Grads are still getting decent salaries and bonus.&lt;/p&gt;
+
+&lt;h2 id=&quot;yet-you-need-to-be-well-prepared&quot;&gt;Yet you need to be well-prepared&lt;/h2&gt;
+
+&lt;p&gt;I have no dare neither experience to foretell the future of computer science industry. But the truth is competition has significantly raised during these years. Even five years ago, the famous &lt;a href=&quot;leetcode.com&quot;&gt;Leetcode.com&lt;/a&gt; (a coding practice platform) has no more than one hundred problems and a student mastering all these solutions would be very likely to be hired by good tech companies. But the website has more than three hundred problems now (334 on Feb 19th 2016) and one not only need to solve these problems but is also required to solve them bug-freely.&lt;/p&gt;
+
+&lt;p&gt;It is hard. It is the reality.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-this-blog-series-is&quot;&gt;What’s this blog series is?&lt;/h2&gt;
+
+&lt;p&gt;The motivation for this series is to help young CS students, especially newbies, to better prepare frequent technical questions.&lt;/p&gt;
+
+&lt;p&gt;There are several common solution to all these questions, and each solution shows, given constraints or simplification of real-world scenario, how a software engineer thinks from a programmer’s perspective, i.e. tradeoff among space and time complexity or tradeoff among development complexity and algorithm efficiency etc.&lt;/p&gt;
+
+&lt;p&gt;In this series, you would hopefully learn when and how to use some most useful data structures and algorithms, the difference and tradeoff among these data structures and algorithms, how to implement some of these data structures, and how to analyze time and space tradeoff among these data structures and algorithms.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-this-blog-series-is-not&quot;&gt;What this blog series is NOT?&lt;/h2&gt;
+
+&lt;p&gt;I definitely absolutely totally do not want you to memorize the solutions here. Surely there are some patterns/templates that maybe helpful if you remember them. But the solution is based on an deep understanding of all those data structures and algorithms and a little bit of tricks.&lt;/p&gt;
+
+&lt;p&gt;Remember that memorizing a solution always do no good to your interview.&lt;/p&gt;
+
+&lt;h2 id=&quot;entries-to-cracking-code-challenge&quot;&gt;Entries to Cracking Code Challenge&lt;/h2&gt;
+
+&lt;p&gt;Here is links for all articles in the series (continuously adding more).&lt;br /&gt;
+1. Two pointers&lt;br /&gt;
+2. Binary Tree (Binary tree, Thread Tree)&lt;br /&gt;
+3. Dictionary Problem (Hashmap, Perfect hashing, Trie Tree)&lt;br /&gt;
+3. Scanning Line Problem (Priority queue)&lt;br /&gt;
+4. Sliding Stream and Sliding Window Problem (Priority queue and Monotone priority queue)&lt;br /&gt;
+5. Dynamic Programming (Hashmap)&lt;br /&gt;
+6. LinkedList&lt;br /&gt;
+7. Search (Binary search, Hashmap)&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+
+&lt;p&gt;[1]&lt;a href=&quot;http://www.sfgate.com/business/article/Twitter-to-lay-off-336-employees-6568501.php&quot;&gt;Twitter lays off 336 employees upon Dorsey’s return as CEO&lt;/a&gt;&lt;br /&gt;
+[2]&lt;a href=&quot;http://www.reuters.com/article/linkedin-results-research-idUSKCN0VE1N0&quot;&gt;LinkedIn sheds $11 billion in value on stock’s worst day since debut&lt;/a&gt;&lt;br /&gt;
+[3]&lt;a href=&quot;http://www.nafsa.org/Find_Resources/Supporting_International_Students_And_Scholars/ISS_Issues/Issues/Focus_On_STEM_OPT/&quot;&gt;Focus On STEM OPT&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 19 Feb 2016 16:12:00 -0500</pubDate>
+        <link>http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-the-Hard-Way/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-the-Hard-Way/</guid>
+        
+        <category>Code Challenge</category>
+        
+        <category>Algorithm</category>
+        
+        <category>Data Structure</category>
+        
+        <category>Interview</category>
+        
+        
+      </item>
     
       <item>
         <title>Talking within Distributed System</title>
@@ -148,8 +318,8 @@ It is obvious that Thrift is way complicated than RESTful API. It also doesn’t
 &lt;/blockquote&gt;
 </description>
         <pubDate>Fri, 19 Feb 2016 14:41:00 -0500</pubDate>
-        <link>http://huangxuan.me/2016/02/19/Talking-across-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Talking-across-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</guid>
+        <link>http://huangxuan.me/2016/02/19/Talking-within-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Talking-within-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</guid>
         
         <category>Distributed System</category>
         
