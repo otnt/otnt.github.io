@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "Cracking Code Challenge - Two pointers"
-subtitle:   ""
+title:      "Cracking Code Challenge The Hard Way"
+subtitle:   "Two pointerswo pointers"
 date:       2016-02-19 20:53 
 author:     "Pufan Jiang"
 header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"

@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "Cracking Code Challenge the Hard Way"
-subtitle:   ""
+title:      "Cracking Code Challenge The Hard Way"
+subtitle:   "Introduction"
 date:       2016-02-19 16:12
 author:     "Pufan Jiang"
 header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
