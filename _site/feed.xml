@@ -5,9 +5,143 @@
     <description>Pufan Jiang&#39;s personal blog, including lots of tech blogs, photo shooting etc.</description>
     <link>http://huangxuan.me/</link>
     <atom:link href="http://huangxuan.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 26 Feb 2016 02:24:12 -0800</pubDate>
-    <lastBuildDate>Fri, 26 Feb 2016 02:24:12 -0800</lastBuildDate>
+    <pubDate>Sat, 05 Mar 2016 01:02:51 -0800</pubDate>
+    <lastBuildDate>Sat, 05 Mar 2016 01:02:51 -0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Cracking Code Challenge The Hard Way - Iterator Design Pattern</title>
+        <description>&lt;h1 id=&quot;design-problem---iterator&quot;&gt;Design Problem - Iterator&lt;/h1&gt;
+
+&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
+
+&lt;p&gt;This article talks about how to design a generic iterator that supports &lt;code&gt;next()&lt;/code&gt;, &lt;code&gt;hasNext()&lt;/code&gt; and &lt;code&gt;getCurrent()&lt;/code&gt; methods.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-use-iterator&quot;&gt;Why use iterator?&lt;/h2&gt;
+
+&lt;p&gt;To traverse a data structure, one could either use index to go through it, or could use an iterator. An iterator basically has several advantages over index traverse:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Most important, at least to me, is that given a streaming data, which means we don’t know size of input, then we could not use index to go through since we don’t know when to stop.&lt;/li&gt;
+  &lt;li&gt;Even we could know the size beforehand, it could be difficult/expensive to calculate this. For example, calculation of size of a LinkedList could be O(N), through not the case in Java.&lt;/li&gt;
+  &lt;li&gt;There are quite a few important data structures that doesn’t support random access, including Set, LinkedList, Tree etc.&lt;/li&gt;
+  &lt;li&gt;Iterator provides a high level concept of traversing, using the general function &lt;code&gt;hasNext()&lt;/code&gt;, &lt;code&gt;next()&lt;/code&gt; etc. so that we could iterate despite underlying data structure. See more about &lt;a href=&quot;https://en.wikipedia.org/wiki/Generic_programming&quot;&gt;generic programming&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Iterator is fail-fast (at least in Java), which means it could help to prevent some concurrent modification conflict. On the other side, index traverse doesn’t provide such protection.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;what-is-iterator&quot;&gt;What is Iterator&lt;/h2&gt;
+
+&lt;p&gt;The core idea of iterator is that it knows&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;the current position in a data structure&lt;/li&gt;
+  &lt;li&gt;how to go to the next position&lt;/li&gt;
+  &lt;li&gt;if it is the end of data structure&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;By abstracting these three most important functions, an iterator has to implement three corresponding methods:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code&gt;getCurrent()&lt;/code&gt; return current value pointed by iterator&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;next()&lt;/code&gt; go to next position. If such position doesn’t exist, throw an exception.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;hasNext()&lt;/code&gt; check if it is the end, this function should be called each time before we call &lt;code&gt;next()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Given these information, we have our iterator interface:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public interface Iterator&amp;lt;T&amp;gt; {
+	public T getCurrent() throws NoSuchElementException;
+	public T next() throws NoSuchElementException;
+	public boolean hasNext();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fairly easy, right? Indeed it is! Now let’s see how to design a concrete iterator.&lt;/p&gt;
+
+&lt;h2 id=&quot;iterator-of-arraylist&quot;&gt;Iterator of ArrayList&lt;/h2&gt;
+
+&lt;p&gt;In Java, get size of ArrayList is constant time, so we could use size as boundary to check if we hit end of list.&lt;/p&gt;
+
+&lt;p&gt;First, we need some private field to help manage iteration.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;//Size of underlying data structure
+private int size;
+//Used to iterate through data structure, it always points to next element
+//to be iterated
+private int cursor;
+//Point to current value, initially -1
+private int current;
+//Used to save underlying data structure
+private Object[] elementData;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then, check if we hit end of list is simple, just check if cursor is at end of list.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;/*
+ * Check if we hit end of data structure.
+ */
+public boolean hasNext() {
+    return cursor != size;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to get next value, we first check &lt;code&gt;hasNext()&lt;/code&gt;, if true then we go on return the value pointed by cursor, otherwise we throw exception.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;/*
+ * Get next value of iterator, move iterator to next position at the
+ * same time. If already at end of data structure, throw exception.
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public T next() throws NoSuchElementException {
+    if(!hasNext()) {
+        throw new NoSuchElementException();
+    }
+    current = cursor++;
+    return (T)elementData[current];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, to get current value is very straightforward.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;/*
+ * Get current value pointed by iterator
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public T getCurrent() throws NoSuchElementException {
+    if(current &amp;lt; 0) {
+        throw new NoSuchElementException();
+    }
+    return (T)elementData[current];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You could get full source code at &lt;a href=&quot;https://github.com/otnt/CodeChallenge/tree/master/DesignPattern/iterator/src/iterator&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;java-open-jdk-implementation&quot;&gt;Java Open-JDK Implementation&lt;/h2&gt;
+
+&lt;p&gt;To learn more about iterator in Java, I highly suggest you read some Java source code. They are extremely easy to follow.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b27/java/util/Iterator.java&quot;&gt;Iterator interface&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/java/util/ArrayList.java#ArrayList.Itr&quot;&gt;ArrayList Iterator&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/ListIterator.java#ListIterator&quot;&gt;ListIterator interface&lt;/a&gt; (An iterator supports both moving forward and backward)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/java/util/ArrayList.java#ArrayList.ListItr&quot;&gt;ArrayList ListIterator&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/java/util/HashMap.java#HashMap.HashIterator&quot;&gt;Hash Iterator&lt;/a&gt; (Iterator implementation in HashMap is a little bit different since the underlying data structure is different. But the general idea is the same)&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Sat, 05 Mar 2016 01:01:00 -0800</pubDate>
+        <link>http://huangxuan.me/2016/03/05/Cracking-Code-Challenge-The-Hard-Way-Iterator-Design-Pattern/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/03/05/Cracking-Code-Challenge-The-Hard-Way-Iterator-Design-Pattern/</guid>
+        
+        <category>design pattern</category>
+        
+        <category>iterator</category>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>Why Go Abroad</title>
