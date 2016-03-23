@@ -16,7 +16,7 @@ A collection of basic knowledge of Go language.
 Suitable for people who are both:
 
 1. Familiar with (not necessary expert at) some other language, preferably C/C++.
-2. Go though these two articles. [Getting Started](https://golang.org/doc/install), [A Tour of Go](https://tour.golang.org/welcome/1)
+2. Go though these three articles. [Getting Started](https://golang.org/doc/install), [A Tour of Go](https://tour.golang.org/welcome/1), [How to Write Go Code](https://golang.org/doc/code.html)
 
 ## Cheatsheet
 
@@ -277,7 +277,7 @@ Empty interface acts like ``void*`` in C language.
 
 ```go
 var i interface{} //empty interface, i is nil after created
-i = "aa"
+i = “aa"
 i = 43 //both are correct
 ```
 
@@ -420,29 +420,57 @@ mux.Unlock()
 
 > Don't communicate by sharing memory; share memory by communicating.
 
-https://golang.org/doc/codewalk/sharemem/
+[Go blog: shareemem codewalk](https://golang.org/doc/codewalk/sharemem/)
 
 A naive interpretation: Do not use lock and shared memory, as a method to communicate among threads. Instead, use channel as communication tool, and share data among threads without lock.
 
 **34.Go syntax**
 
 > A good post talking about why's the similarity and difference between Go syntax and C syntax.
-https://blog.golang.org/gos-declaration-syntax
+
+[Go blog: Go's declaration syntax](https://blog.golang.org/gos-declaration-syntax)
 
 **35.Defer, panic, recover**
 
 > A defer statement pushes a function call onto a list. The list of saved calls is executed after the surrounding function returns. Defer is commonly used to simplify functions that perform various clean-up actions.
->
+> 
 > 1. A deferred function's arguments are evaluated when the defer statement is evaluated.
->
+> 
 > 2. Deferred function calls are executed in Last In First Out order after the surrounding function returns.
->
+> 
 > 3. Deferred functions may read and assign to the returning function's named return values.
->
+> 
 > This is convenient for modifying the error return value of a function
+> 
+> <br>
 > 
 > Panic is a built-in function that stops the ordinary flow of control and begins panicking. When the function F calls panic, execution of F stops, any deferred functions in F are executed normally, and then F returns to its caller. To the caller, F then behaves like a call to panic. The process continues up the stack until all functions in the current goroutine have returned, at which point the program crashes. Panics can be initiated by invoking panic directly. They can also be caused by runtime errors, such as out-of-bounds array accesses.
 > 
+> <br>
+> 
 > Recover is a built-in function that regains control of a panicking goroutine. Recover is only useful inside deferred functions. During normal execution, a call to recover will return nil and have no other effect. If the current goroutine is panicking, a call to recover will capture the value given to panic and resume normal execution.
 
-https://blog.golang.org/defer-panic-and-recover
+[Go blog: defer panic and recover](https://blog.golang.org/defer-panic-and-recover)
+
+**36.Test**
+
+Go provides a built-in test platform.
+
+The convention is:
+
+1. Within the package, have a go file named XXX__test.go
+2. Within this go file, have functions named TestXXX.go
+3. The test function should have format as
+  
+  ```go
+  func TestXXX(t *testing.T) {}
+  ```
+  
+4. Import package ```"testing"```
+5. Use [test functions](https://golang.org/pkg/testing/) to indicate error. This including
+
+```go
+t.Error
+t.Errorf
+t.Fail
+```
