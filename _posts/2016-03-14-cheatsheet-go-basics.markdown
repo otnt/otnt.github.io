@@ -277,7 +277,7 @@ Empty interface acts like ``void*`` in C language.
 
 ```go
 var i interface{} //empty interface, i is nil after created
-i = “aa"
+i = "aa"
 i = 43 //both are correct
 ```
 
@@ -419,23 +419,30 @@ mux.Unlock()
 **33.Share memory by communicating**
 
 > Don't communicate by sharing memory; share memory by communicating.
+
 https://golang.org/doc/codewalk/sharemem/
 
 A naive interpretation: Do not use lock and shared memory, as a method to communicate among threads. Instead, use channel as communication tool, and share data among threads without lock.
 
 **34.Go syntax**
+
 > A good post talking about why's the similarity and difference between Go syntax and C syntax.
 https://blog.golang.org/gos-declaration-syntax
 
 **35.Defer, panic, recover**
 
-> https://blog.golang.org/defer-panic-and-recover
 > A defer statement pushes a function call onto a list. The list of saved calls is executed after the surrounding function returns. Defer is commonly used to simplify functions that perform various clean-up actions.
+>
 > 1. A deferred function's arguments are evaluated when the defer statement is evaluated.
+>
 > 2. Deferred function calls are executed in Last In First Out order after the surrounding function returns.
+>
 > 3. Deferred functions may read and assign to the returning function's named return values.
+>
 > This is convenient for modifying the error return value of a function
 > 
 > Panic is a built-in function that stops the ordinary flow of control and begins panicking. When the function F calls panic, execution of F stops, any deferred functions in F are executed normally, and then F returns to its caller. To the caller, F then behaves like a call to panic. The process continues up the stack until all functions in the current goroutine have returned, at which point the program crashes. Panics can be initiated by invoking panic directly. They can also be caused by runtime errors, such as out-of-bounds array accesses.
 > 
 > Recover is a built-in function that regains control of a panicking goroutine. Recover is only useful inside deferred functions. During normal execution, a call to recover will return nil and have no other effect. If the current goroutine is panicking, a call to recover will capture the value given to panic and resume normal execution.
+
+https://blog.golang.org/defer-panic-and-recover
