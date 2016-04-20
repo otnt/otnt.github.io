@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Panic vs. Return Error"
+title:      "异常处理：Panic/Exception 对比 Return Error"
 subtitle:   ""
 date:       2016-04-20 16:17 
 author:     "Pufan Jiang"
