@@ -154,6 +154,217 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/05/21/dp-analysis-longest-palindrome-substring/">
+        <h2 class="post-title">
+            DP分析之最长回文子串
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            最长回文子串(Longest Palindrome Substring)
+
+Leetcode描述在此
+
+DP四步骤：
+
+1.寻找最优子结构
+
+首先直接想到的是，如果知道i到j范围内的最优解，能否得知i到j+1的最优解。然而发现，可能最优解是i+1到j。联想到回文是一个头尾都要考虑的结构，所以修改子结构为，已知i到j-1内的最优解，以及i+1到j内的最优解，能否得到i到j内的最优解。
+
+思考后...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on May 21, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/21/dynamic-programming-intro-to-algo/">
+        <h2 class="post-title">
+            动态规划题目的一般化
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            最近在实习，做题的时间非常有限。翻了下算法导论中动态规划一章，觉得讲的着实好。动态规划其实非常有迹可循，而面试算法考法更是有限。在此分享一下我读了算法导论这一章后对动规解题思路的理解（其中很多内容和我之前一篇博文中的思路不谋而合）。
+
+1. DP要点
+
+1.1 DP一般用于优化问题（optimization problem）。这类问题有很多解，DP能快速找到一个最优解（可能存在多个最优解）。...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on May 21, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/12/lava-love/">
+        <h2 class="post-title">
+            皮克斯唯美爱情微电影《Lava》
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            过去的一周，和我生命中的奇迹—饼妹—一起在甘肃南部游玩。期间看了这个微电影，非常喜欢电影中尤克里里欢快的配乐，可爱的卡通形象，和优美的歌词。在此将个人听译的歌词分享给大家。
+
+视频链接:点击此处
+
+歌词：
+
+A long long time ago, there was a volcano
+
+Living all alone in the middle of the sea
+
+He sat ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on May 12, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/04/29/dynamic-programming/">
+        <h2 class="post-title">
+            一道题分析动态规划
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            动态规划（Dynamic Programming）是面试算法常见考点。能够同时考察抽象总结以及归纳能力（需要计算递推公式，要知道递推在美国人眼里是很高级的技巧），以及coding的能力（动态规划一般要设计二维数组，以及复杂容易出错的index）。
+
+这篇博客，我试图通过求解Leetcode经典题目，Best Time to Buy and Sell Stock IV, 来分析一下DP的总体思...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on April 29, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/04/20/Panic-vs-Return-Error/">
+        <h2 class="post-title">
+            异常处理：Panic/Exception 对比 Return Error
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            但凡编写实用的程序，都需要处理错误异常。常见的方法有两种，一种是抛出异常(throw Exception), 类似于Go语言中的panic, 另一种是返回一个错误标示, 类似于Go语言中返回error, 或是C语言中返回-1。
+
+常常有人讨论哪种做法更好。我认为以下观点值得参考。
+
+The rule is simple: if your function is in any way like...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on April 20, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/04/20/concurrency-vs-parallelism/">
+        <h2 class="post-title">
+            Concurrency vs. Parallelism
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            These notes are quoted from Go Concurrency Patterns.
+
+What is Concurrency
+
+Programming as the composition of independently executing processes.
+
+What is Parallelism
+
+Programming as the simultaneous...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on April 20, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/03/23/cheatsheet-go-basics/">
+        <h2 class="post-title">
+            A cheatsheet on basic of Go language
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            A cheatsheet on basic of Go language
+
+A collection of basic knowledge of Go language.
+
+Suitable for people who are both:
+
+
+  Familiar with (not necessary expert at) some other language, preferably ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on March 23, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/03/14/Cracking-Code-Challenge-The-Hard-Way-Stack-Queue-Priority-Queue-and-advanced-applications-1-Stack-and-Monotone-Priority-Queue/">
+        <h2 class="post-title">
+            Cracking Code Challenge The Hard Way - Stack, Queue, Priority Queue and advanced applications (1) -- Stack and Monotone Priority Queue
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            Cracking Code Challenge The Hard Way - Stack, Queue, Priority Queue and advanced applications (1) – Stack and Monotone Priority Queue
+
+TL;DR
+
+Awww yah!
+
+In these short series, I will cover basic da...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Pufan Jiang on March 14, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/03/05/Cracking-Code-Challenge-The-Hard-Way-Iterator-Design-Pattern/">
         <h2 class="post-title">
             Cracking Code Challenge The Hard Way - Iterator Design Pattern
@@ -210,122 +421,17 @@ Why you decided go abroad?
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Two-pointers/">
-        <h2 class="post-title">
-            Cracking Code Challenge The Hard Way - Two pointerswo pointers
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            TL;DR;
-
-Two pointers is an idea applicable to many algorithm challenge. The key idea is to think in a parallel way, rather than sequential way which is more natural to humans.
-
-In this post, I will...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Pufan Jiang on February 19, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Introduction/">
-        <h2 class="post-title">
-            Cracking Code Challenge The Hard Way - Introduction
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  This blog series are to help new grads like me to prepare algorithm interview/tech interview. These posts focus on common useful data structures, algorithms, test strategies and some tricks to h...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Pufan Jiang on February 19, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/02/19/Talking-within-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/">
-        <h2 class="post-title">
-            Talking within Distributed System
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Message Passing, RPC, RESTful and Thrift
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  This is a short series about some important concepts in distributed system.
-
-
-TL;DR;
-
-In this article, I first tried to explain what’s difference between communication in distributed system and ...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Pufan Jiang on February 19, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/02/14/Secure-Threats-Buffer-Overflow-Attack-Level-0/">
-        <h2 class="post-title">
-            Secure Threats -- Buffer Overflow Attack -- Level 0
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Your first hacking attack
-        </h3>
-        
-        <div class="post-content-preview">
-            This is a short series about secure system. The goal is to show readers that our software system is far from robust and safe, and hopefully you would keep this in mind. (We are all that easy to ove...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Pufan Jiang on February 14, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/02/11/poison-pill-pattern/">
-        <h2 class="post-title">
-            Poison Pill Pattern
-        </h2>
-        
-        <h3 class="post-subtitle">
-            A decent way to stop service in producer consumer environment
-        </h3>
-        
-        <div class="post-content-preview">
-            Poison Pill Pattern
-
-Why need this?
-In a producer consumer problem, how could threads know when to stop? If just interrupt all threads abruptly, maybe some jobs in the queue are not handled properl...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Pufan Jiang on February 11, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 
     		</div>
@@ -371,8 +477,22 @@ In a producer consumer problem, how could threads know when to stop? If just int
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                                 <a href="/tags/#Code Challenge" title="Code Challenge" rel="2">
                                     Code Challenge
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Algorithm" title="Algorithm" rel="2">
+                                    Algorithm
                                 </a>
                             
                         
@@ -396,6 +516,40 @@ In a producer consumer problem, how could threads know when to stop? If just int
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Go" title="Go" rel="3">
+                                    Go
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#algorithm" title="algorithm" rel="2">
+                                    algorithm
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#interview" title="interview" rel="2">
+                                    interview
+                                </a>
                             
                         
                     </div>
@@ -493,7 +647,7 @@ In a producer consumer problem, how could threads know when to stop? If just int
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Pufan Jiang's Blog 2016
+                    Copyright &copy; Pufan Jiang's Blog 2017
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe

