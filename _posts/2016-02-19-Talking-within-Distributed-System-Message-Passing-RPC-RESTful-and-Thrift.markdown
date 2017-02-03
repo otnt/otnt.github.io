@@ -4,7 +4,7 @@ title:      "Talking within Distributed System"
 subtitle:   "Message Passing, RPC, RESTful and Thrift"
 date:       2016-02-19 14:41
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - Distributed System
     - Network

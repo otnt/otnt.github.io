@@ -4,7 +4,7 @@ title:      "Secure Threats -- Buffer Overflow Attack -- Level 0"
 subtitle:   "Your first hacking attack"
 date:       2016-02-14 14:38
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - Buffer Overflow
     - Secure 

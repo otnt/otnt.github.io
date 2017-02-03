@@ -4,7 +4,7 @@ title:      "Cracking Code Challenge The Hard Way - Introduction"
 subtitle:   ""
 date:       2016-02-19 16:12
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - Code Challenge
     - Algorithm

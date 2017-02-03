@@ -4,7 +4,7 @@ title:      "Inter-process communication using pipe and multiprocess debugging u
 subtitle:   ""
 date:       2017-02-03 17:06
 author:     "Pufan Jiang"
-header-img: ""
+header-img: "img/post-bg.jpg"
 tags:
     - c
     - unix

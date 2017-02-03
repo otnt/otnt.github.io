@@ -4,7 +4,7 @@ title:      "皮克斯唯美爱情微电影《Lava》"
 subtitle:   ""
 date:       2016-05-12 00:50 
 author:     "Pufan Jiang"
-header-img: ""
+header-img: "img/post-bg.jpg"
 tags:
     - movie
     - love story

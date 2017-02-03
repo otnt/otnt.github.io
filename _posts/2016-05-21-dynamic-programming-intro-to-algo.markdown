@@ -4,7 +4,7 @@ title:      "动态规划题目的一般化"
 subtitle:   ""
 date:       2016-05-21 12:22 
 author:     "Pufan Jiang"
-header-img: ""
+header-img: "img/post-bg.jpg"
 tags:
     - algorithm
     - interview 

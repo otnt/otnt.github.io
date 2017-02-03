@@ -4,7 +4,7 @@ title:      "Cracking Code Challenge The Hard Way - Iterator Design Pattern"
 subtitle:   ""
 date:       2016-03-05 01:01
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - design pattern
     - iterator

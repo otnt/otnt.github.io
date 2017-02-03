@@ -4,7 +4,7 @@ title:      "Cracking Code Challenge The Hard Way - Stack, Queue, Priority Queue
 subtitle:   ""
 date:       2016-03-14 20:18 
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - code challenge
     - stack

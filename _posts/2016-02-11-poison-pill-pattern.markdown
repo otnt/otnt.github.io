@@ -4,7 +4,7 @@ title:      "Poison Pill Pattern"
 subtitle:   "A decent way to stop service in producer consumer environment"
 date:       2016-02-11 14:37
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - Design Pattern
     - Multi-thread

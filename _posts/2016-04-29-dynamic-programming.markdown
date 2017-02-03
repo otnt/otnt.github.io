@@ -4,7 +4,7 @@ title:      "一道题分析动态规划"
 subtitle:   ""
 date:       2016-04-29 11:50 
 author:     "Pufan Jiang"
-header-img: ""
+header-img: "img/post-bg.jpg"
 tags:
     - Algorithm
     - Dynamic Programming

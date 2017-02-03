@@ -4,6 +4,7 @@ title:      "Concurrency vs. Parallelism"
 subtitle:   ""
 date:       2016-04-20 13:22 
 author:     "Pufan Jiang"
+header-img: "img/post-bg.jpg"
 tags:
     - Go
     - Concurrency

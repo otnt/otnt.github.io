@@ -4,7 +4,7 @@ title:      "Why Go Abroad"
 subtitle:   "thought collection from overseas students"
 date:       2016-02-26 02:17
 author:     "Pufan Jiang"
-header-img: "img/post-2016-02-11-poison-pill-pattern.jpg"
+header-img: "img/post-bg.jpg"
 tags:
     - personal
     - thought

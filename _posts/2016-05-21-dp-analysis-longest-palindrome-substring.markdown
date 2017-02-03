@@ -4,7 +4,7 @@ title:      "DP分析之最长回文子串"
 subtitle:   ""
 date:       2016-05-21 12:25 
 author:     "Pufan Jiang"
-header-img: ""
+header-img: "img/post-bg.jpg"
 tags:
     - algorithm
     - interview 
