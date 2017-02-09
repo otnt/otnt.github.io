@@ -9,6 +9,9 @@
  * Elegant charcoal: #787A79
  * Medici grey: #B1B7B7
  * Stone white: #E2E3DE
+ * Fossil grey: #CDC7BC
+ * Whitecliff beige: #E0D9D0
+ * Gloden basketry: #AD9475
  *
  * Deep grey: #2E2E2E
  * Dark white: #EDE8E4
@@ -38,4 +41,40 @@
   .navbar-custom.is-fixed .nav li a {
     color: #FAFAFA;
   }
+}
+
+.post-preview > .post-meta {
+	font-size: 14px
+}
+
+.pager li > a:hover,
+.pager li > a:focus {
+  color: #464543;
+  background-color: #E2E3DE;
+  border: 1px solid #E2E3DE;
+}
+
+.intro-header .post-heading,
+.intro-header .site-heading {
+	padding-top:    50px;
+	padding-bottom: 50px;
+}
+
+.intro-header .post-heading .meta {
+	font-size: 14px;
+}
+@media only screen and (min-width: 768px) {
+  .intro-header .post-heading .meta {
+	font-size: 14px;
+  }
+}
+
+.post-container a {
+  color: #AD9475;
+  font-weight: bold;
+}
+.post-container a:hover,
+.post-container a:focus {
+  color: #AD9475;
+  font-weight: bold;
 }

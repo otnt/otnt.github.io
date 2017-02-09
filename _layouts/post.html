@@ -20,8 +20,8 @@ layout: default
                     {% comment %} if page.subtitle {% endcomment %}
                     <h2 class="subheading">{{ page.subtitle }}</h2>
                     {% comment %} endif {% endcomment %}
-                    <span class="meta">Posted on {{ page.date | date: "%B %-d, %Y" }}</span>
-                    <span class="meta">Updated on {{ page.date | date: "%B %-d, %Y" }}</span>
+                    <span class="meta">Posted on {{ page.post_date | date: "%B %-d, %Y" }}</span>
+                    <span class="meta">Updated on {{ page.update_date | date: "%B %-d, %Y" }}</span>
                 </div>
             </div>
         </div>
