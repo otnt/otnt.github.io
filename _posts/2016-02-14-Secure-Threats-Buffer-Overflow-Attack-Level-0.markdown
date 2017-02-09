@@ -2,17 +2,18 @@
 layout:     post
 title:      "Secure Threats -- Buffer Overflow Attack -- Level 0"
 subtitle:   "Your first hacking attack"
-date:       2016-02-14 14:38
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-02-14 14:38
+update-date:       2016-02-14 14:38
 tags:
     - Buffer Overflow
     - Secure 
 ---
 
-This is a short series about secure system. The goal is to show readers that our software system is far from robust and safe, and hopefully you would keep this in mind. (We are all that easy to overlook security problems.)
-
-This first several posts talk about a basic yet highly prevalent attack/hack solution to a software system that seems robust at first glance. This is called Buffer Overflow.
+> TL;DR
+> 
+> This series is about secure system. Our software system is far from robust and safe.
+> 
+> This post talks about a basic attack, namely Buffer Overflow, that could shoot down a software system which seems robust at first glance.
 
 **Pre-requisite** 
 The first pre-requisite is quite easy to catch up, but the second and third ones are fundamental pre knowledge.
