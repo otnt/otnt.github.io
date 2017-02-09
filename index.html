@@ -15,11 +15,13 @@ description: "Make Things Simple"
         </h3>
         {% endif %}
         <div class="post-content-preview">
-	 {{ post.excerpt }}
+	 {{ post.excerpt | remove_url }}
         </div>
     </a>
     <p class="post-meta">
         {{ post.update-date | date: "%B %-d, %Y" }}
+	<br>
+    {{ post.content | number_of_words }} words / {{ post.content | number_of_words | divided_by:300.0 | ceil }} minutes
     </p>
 </div>
 <hr>
