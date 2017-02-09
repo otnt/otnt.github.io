@@ -12,6 +12,7 @@ tags:
     - Interview
 ---
 
+> TL; DR
 > This blog series are to help new grads like me to prepare algorithm interview/tech interview. These posts focus on common useful data structures, algorithms, test strategies and some tricks to help you to crack code challenge!
 
 ## Situation at tech industry is not that bad
