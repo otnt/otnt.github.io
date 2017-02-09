@@ -2,9 +2,8 @@
 layout:     post
 title:      "Inter-process communication using pipe and multiprocess debugging using GDB"
 subtitle:   ""
-date:       2017-02-03 17:06
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2017-02-03 17:06
+update-date:       2017-02-03 17:06
 tags:
     - c
     - unix

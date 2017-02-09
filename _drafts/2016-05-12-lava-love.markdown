@@ -2,9 +2,8 @@
 layout:     post
 title:      "皮克斯唯美爱情微电影《Lava》"
 subtitle:   ""
-date:       2016-05-12 00:50 
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-05-12 00:50 
+update-date:       2016-05-12 00:50 
 tags:
     - movie
     - love story
@@ -16,7 +15,7 @@ tags:
 ---
 ---
 
-视频链接:[点击此处](https://mp.weixin.qq.com/s?__biz=MjM5MzAxNjEyMA==&mid=402981239&idx=2&sn=63dd7d2a1b52219f2b5b4166fbfd72cb&scene=1&srcid=0510bSxPN9RUDmhuacJAqxaP&key=b28b03434249256b733cdf85ce1d5d08397eabfd8bb1b7ff8c6adbe08c69e67f152ebf50229b1f73fa6d5326ac9aaeab&ascene=0&uin=MjE4NjE2NDIyNQ%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.11.3+build(15D21)&version=11020201&pass_ticket=G6VwcFos76BfdpHPhXOePo%2BKHZJEaGQZbo6txWvPGfvM5msze%2Bsd4DJm2SgsCGFY)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/uh4dTLJ9q9o" frameborder="0" allowfullscreen></iframe>
 
 歌词：
 
