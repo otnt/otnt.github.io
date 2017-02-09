@@ -12,6 +12,10 @@ tags:
 
 Quoted from [Go Concurrency Patterns](https://www.youtube.com/watch?v=f6kdp27TYZs).
 
+<!-- excerpt -->
+---
+---
+
 ### What is Concurrency
 
 Programming as the composition of independently executing processes.

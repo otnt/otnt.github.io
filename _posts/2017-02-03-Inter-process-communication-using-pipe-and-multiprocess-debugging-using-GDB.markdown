@@ -12,12 +12,14 @@ tags:
     - system 
 ---
 
-### Outline
-
 In this article, we'll walk through a simple example showing
 
 - how to use unix pipe for inter-process communication
 - how to debug a program of three processes using GDB
+
+<!-- excerpt -->
+---
+---
 
 ### Pre-requists
 

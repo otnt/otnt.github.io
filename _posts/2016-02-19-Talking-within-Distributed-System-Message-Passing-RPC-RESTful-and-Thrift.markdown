@@ -19,6 +19,10 @@ tags:
 - Two most popular way to communicate within a distributed system, i.e. message passing and RPC, and analyzed the advantages and disadvantages of them. 
 - Two most successful protocol using these two communication idea, i.e. RESTful and Thrift.
 
+<!-- excerpt -->
+---
+---
+
 ## Why talking within distributed system is different from local machine?
 
 In a local machine, when process A is communicating with process B, it could be done in a synchronized fashion guaranteed by electrical circuit or the so-called bus built in your laptop or server. So the delivery time is always constant, corresponding to several clock cycles.

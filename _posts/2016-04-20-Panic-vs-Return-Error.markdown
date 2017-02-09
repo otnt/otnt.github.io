@@ -1,15 +1,19 @@
 ---
 layout:     post
-title:      "异常处理：Panic/Exception 对比 Return Error"
+title:      "Exception handling: panic/exception v.s. return error"
 subtitle:   ""
-date:       2016-04-20 16:17 
-author:     "Pufan Jiang"
+post-date:       2016-04-20 16:17 
+update-date:       2016-04-20 16:17 
 tags:
     - Go
     - Panic
 ---
 
 但凡编写实用的程序，都需要处理错误异常。常见的方法有两种，一种是抛出异常(throw Exception), 类似于Go语言中的panic, 另一种是返回一个错误标示, 类似于Go语言中返回error, 或是C语言中返回-1。
+
+<!-- excerpt -->
+---
+---
 
 常常有人讨论哪种做法更好。我认为以下观点值得参考。
 

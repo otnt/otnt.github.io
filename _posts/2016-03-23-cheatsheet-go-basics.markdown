@@ -8,10 +8,15 @@ tags:
     - Go
 ---
 
-- Quoted from:
+Quoted from:
+
  1. [Getting Started](https://golang.org/doc/install)
  2. [A Tour of Go](https://tour.golang.org/welcome/1)
  3. [How to Write Go Code](https://golang.org/doc/code.html)
+
+<!-- excerpt -->
+---
+---
 
 ## Cheatsheet
 
