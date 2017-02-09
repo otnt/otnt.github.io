@@ -68,3 +68,17 @@
 	font-size: 14px;
   }
 }
+
+.post-content-preview {
+  font-size: 14px;
+  color: #787A79;
+  font-style: normal;
+}
+.post-content-preview:hover {
+  color: #787A79;
+}
+@media only screen and (min-width: 768px) {
+  .post-content-preview {
+    font-size: 16px;
+  }
+}
