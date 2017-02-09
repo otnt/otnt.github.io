@@ -81,3 +81,15 @@
     font-size: 16px;
   }
 }
+
+.intro-header .site-heading .subheading,
+.intro-header .post-heading .subheading,
+.intro-header .page-heading .subheading {
+    font-size: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+  .intro-header .post-heading .subheading {
+    font-size: 20px;
+  }
+}
