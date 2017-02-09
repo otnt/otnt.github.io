@@ -2,16 +2,15 @@
 layout:     post
 title:      "Concurrency vs. Parallelism"
 subtitle:   ""
-date:       2016-04-20 13:22 
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-04-20 13:22 
+update-date:       2016-04-20 13:22 
 tags:
     - Go
     - Concurrency
     - Parallelism
 ---
 
-These notes are quoted from [Go Concurrency Patterns](https://www.youtube.com/watch?v=f6kdp27TYZs).
+Quoted from [Go Concurrency Patterns](https://www.youtube.com/watch?v=f6kdp27TYZs).
 
 ### What is Concurrency
 

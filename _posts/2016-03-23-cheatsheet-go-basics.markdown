@@ -2,21 +2,16 @@
 layout:     post
 title:      "A cheatsheet on basic of Go language"
 subtitle:   ""
-date:       2016-03-23 16:09 
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-03-23 16:09 
+update-date:       2016-03-23 16:09 
 tags:
     - Go
 ---
 
-# A cheatsheet on basic of Go language
-
-A collection of basic knowledge of Go language.
-
-Suitable for people who are both:
-
-1. Familiar with (not necessary expert at) some other language, preferably C/C++.
-2. Go though these three articles. [Getting Started](https://golang.org/doc/install), [A Tour of Go](https://tour.golang.org/welcome/1), [How to Write Go Code](https://golang.org/doc/code.html)
+- Quoted from:
+ 1. [Getting Started](https://golang.org/doc/install)
+ 2. [A Tour of Go](https://tour.golang.org/welcome/1)
+ 3. [How to Write Go Code](https://golang.org/doc/code.html)
 
 ## Cheatsheet
 
