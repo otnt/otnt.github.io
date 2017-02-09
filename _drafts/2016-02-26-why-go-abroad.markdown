@@ -2,9 +2,8 @@
 layout:     post
 title:      "Why Go Abroad"
 subtitle:   "thought collection from overseas students"
-date:       2016-02-26 02:17
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-02-26 02:17
+update-date:       2016-02-26 02:17
 tags:
     - personal
     - thought
