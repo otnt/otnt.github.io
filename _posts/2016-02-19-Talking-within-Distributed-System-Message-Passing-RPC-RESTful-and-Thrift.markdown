@@ -2,9 +2,8 @@
 layout:     post
 title:      "Talking within Distributed System"
 subtitle:   "Message Passing, RPC, RESTful and Thrift"
-date:       2016-02-19 14:41
-author:     "Pufan Jiang"
-header-img: "img/post-bg.jpg"
+post-date:       2016-02-19 14:41
+update-date:       2016-02-19 14:41
 tags:
     - Distributed System
     - Network
@@ -16,15 +15,9 @@ tags:
     - Thrift
 ---
 
-> This is a short series about some important concepts in distributed system.
-
-## TL;DR;
-
-In this article, I first tried to explain what's difference between communication in distributed system and local machine. 
-
-Then I talked about two most popular way to communicate within a distributed system, i.e. message passing and RPC, and analyzed the advantages and disadvantages of them. 
-
-Finally, I introduced two most successful protocol using these two communication idea, i.e. RESTful and Thrift.
+- What's different between communication in distributed system and local machine. 
+- Two most popular way to communicate within a distributed system, i.e. message passing and RPC, and analyzed the advantages and disadvantages of them. 
+- Two most successful protocol using these two communication idea, i.e. RESTful and Thrift.
 
 ## Why talking within distributed system is different from local machine?
 

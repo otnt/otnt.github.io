@@ -9,11 +9,8 @@ tags:
     - Secure 
 ---
 
-> TL;DR
-> 
-> This series is about secure system. Our software system is far from robust and safe.
-> 
-> This post talks about a basic attack, namely Buffer Overflow, that could shoot down a software system which seems robust at first glance.
+- Our software system is far from robust and safe.
+- This post talks about a basic attack, namely Buffer Overflow, that could shoot down a software system which seems robust at first glance.
 
 **Pre-requisite** 
 The first pre-requisite is quite easy to catch up, but the second and third ones are fundamental pre knowledge.
