@@ -21,7 +21,7 @@ description: "Make Things Simple"
     <p class="post-meta">
         {{ post.update-date | date: "%B %-d, %Y" }}
 	<br>
-    {{ post.content | number_of_words }} words / {{ post.content | number_of_words | divided_by:300.0 | ceil }} minutes
+    {{ post.content | number_of_words }} words / {{ post.content | number_of_words | divided_by:300.0 | my_ceil }} minutes
     </p>
 </div>
 <hr>

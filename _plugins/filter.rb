@@ -44,6 +44,10 @@ module Jekyll
       end
       return content[0, default_length]
     end
+    
+    def my_ceil(n)
+        return n.ceil
+    end
   end
 end
 
