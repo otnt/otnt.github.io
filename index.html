@@ -15,11 +15,7 @@ description: "Make Things Simple"
         </h3>
         {% endif %}
         <div class="post-content-preview">
-	{% if post.tldr %}
-	  {{ post.tldr }}
-	{% else %}
-	 {{ post.content | strip_html | truncate:200 }}
-	{% endif %}
+	 {{ post.excerpt }}
         </div>
     </a>
     <p class="post-meta">
