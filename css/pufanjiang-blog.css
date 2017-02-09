@@ -49,9 +49,8 @@
 
 .pager li > a:hover,
 .pager li > a:focus {
-  color: #464543;
-  background-color: #E2E3DE;
-  border: 1px solid #E2E3DE;
+  color: #AD9475;
+  background-color: #FFFFFF;
 }
 
 .intro-header .post-heading,
