@@ -8,12 +8,11 @@ tags:
     - Design Pattern
     - Multi-thread
     - Producer Consumer
-tldr: "How do producer(s) notify consumer(s) to stop? The producer can not simple kill the consumer, since there may be some jobs still in the queue. One solution is use poison pill -- a special value to notify consumer(s) the end of service."
 ---
 
-### TL;DR
-
-How do producer(s) notify consumer(s) to stop? The producer can not simple kill the consumer, since there may be some jobs still in the queue. One solution is use poison pill -- a special value to notify consumer(s) the end of service.
+> TL;DR
+>
+> How do producer(s) notify consumer(s) to stop? The producer can not simple kill the consumer, since there may be some jobs still in the queue. One solution is use poison pill -- a special value to notify consumer(s) the end of service.
 
 ### How it works?
 The idea is extremely simple. When producer wants to stop the service, it sends a special message (poison pill) into the queue and stops it self, when consumer gets this message, it closes it self as well.
