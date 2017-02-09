@@ -68,13 +68,3 @@
 	font-size: 14px;
   }
 }
-
-.post-container a {
-  color: #AD9475;
-  font-weight: bold;
-}
-.post-container a:hover,
-.post-container a:focus {
-  color: #AD9475;
-  font-weight: bold;
-}
