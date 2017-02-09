@@ -1,0 +1,52 @@
+@import url("./hux-blog.css");
+
+
+/*
+ * Color palette here:
+ * http://mycolortopia.com/blog/color/love-scandinavian-look-try-color-palette#xHRi6HT6TgQSvd0y.97
+ *
+ * Deep onyx: #464543
+ * Elegant charcoal: #787A79
+ * Medici grey: #B1B7B7
+ * Stone white: #E2E3DE
+ *
+ * Deep grey: #2E2E2E
+ * Dark white: #EDE8E4
+ */
+
+.eye-protect-bg {
+	 background-color: #FAFAFA;
+	 color: #2E2E2E;
+}
+
+#eye-protect-bg {
+	 background-color: #FAFAFA;
+	 color: #2E2E2E;
+}
+
+.intro-header {
+	background-color: #2E2E2E;
+}
+
+.site-heading h1 {
+	 color: #FAFAFA;
+}
+
+.post-heading h1 {
+	 color: #FAFAFA;
+}
+
+@media only screen and (min-width: 1170px) {
+  .navbar-custom.is-fixed {
+  	background-color: #2E2E2E;
+      	border-bottom: 1px solid #B1B7B7;
+  }
+
+  .navbar-custom.is-fixed .navbar-brand {
+    color: #FAFAFA;
+  }
+
+  .navbar-custom.is-fixed .nav li a {
+    color: #FAFAFA;
+  }
+}

@@ -67,15 +67,16 @@ sidebar-avatar: /img/icon.jpg      # use absolute URL, seeing it's used in both 
 
 
 # Featured Tags
-featured-tags: true                     # whether or not using Feature-Tags
+# This is a cool feature but seems useless to me.
+featured-tags: false                    # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
 
 
 
 # Friends
-friends: [
-    {
-        title: "CSDN",
-        href: "http://blog.csdn.net/jiangfan2014"
-    }
-]
+# friends: [
+#     {
+#         title: "CSDN",
+#         href: "http://blog.csdn.net/jiangfan2014"
+#     }
+# ]
