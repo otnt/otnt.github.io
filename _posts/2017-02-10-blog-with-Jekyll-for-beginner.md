@@ -11,7 +11,7 @@ This article
 - use [Liquid](https://github.com/Shopify/liquid) and [Jekyll plugin](https://jekyllrb.com/docs/plugins/) to customize article previews front matter
 - example blog
 
-![example-blog](d)
+![example-blog](/img/posts/jekyll-blog-demo.gif)
 
 Pre-requists
 
