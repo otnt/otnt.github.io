@@ -1,0 +1,24 @@
+Hi, welcome to my tech blog, a place I share experience, tricks and thoughts about software technology.
+
+I hold a Bachelor degree in Shanghai Jiao Tong University (Top 5 in China) and a Master degree in Carnegie Mellon University (CMU). [My resume is here]({{ "/resume" | prepend: site.baseurl }}).
+
+During the years I’ve been interacted with multiple software areas, including
+
+1. **algorithm/math heavy areas**: machine learning or computer vision (most of my last two years in bachelor study was on computer vision),
+2. **web and mobile applications**: played with some projects during Hackathons and a start-up project,
+3. **high level system**: designed simple distributed system in Go, and web service in Java,
+4. **low-medium level system**: implemented network library, SSD block mapping layer,
+5. **hardware level system**: some on single chip machines handling small tasks, some on FPGA for real-time system.
+
+While every experience provides some level of fun and challenge, I found myself most enjoyed when I
+
+1. need to think hard to make sure robustness, e.g. malformed input, concurrency issue, crash of other component(s),
+    - An example is my network project: every system call may fail, network delays are unpredictable, bit error is rare but exists, peer crash happens, insufficient memory, malformed requests etc.
+2. need to think hard to make system flexible and modular, in order for easy testing, extension, and potential performance improvement,
+    - An example is my hybrid file system project, where I implemented a file system backed by  local and cloud storage with smart de-duplication technique and basic caching policy. It fits well in a layered design and by using a five layered model, I could unit testing each component and each layer is flexible enough to be enhanced separately.
+3. need to figure out performance bottlenecks.
+    - An example is my high performance web server project, where I implemented web services handling ~10K requests/second with limited resource. As a result I need to figure out performance bottlenecks, and extract as much power from the machine as possible.
+
+Another point of view is I’m more intrigued when learning how to handle problems with a practical, engineered or empirical way than in an algorithm and theory focused way. This is not saying algorithm/theory is not important — each software area has some principles that is fundamentally important, and math is still the most inexpensive tool to estimate a system performance — but just I personally enjoy the tradeoff, the complex and unpredictability of system design.
+
+My career goal is to become a system architect. Let's all keep calm and move on!
