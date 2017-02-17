@@ -1,0 +1,87 @@
+---
+layout: default
+title: "Resume"
+description: ""
+---
+
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+				<div class="site-heading">
+					<h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+					<!--<hr class="small">-->
+					<span class="subheading">{{ page.description }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<article>
+	<div class="container">
+		<div class="row">
+			<div class="
+			col-lg-8 col-lg-offset-2
+			col-md-10 col-md-offset-1
+			post-container">
+
+				<a href="{{ "/Pufan_Jiang_Resume.pdf" | prepend: site.baseurl }}">PDF version (67KB)</a>
+				<br>
+				<a href="{{ "/Pufan_Jiang_Resume.jpg" | prepend: site.baseurl }}">JPEG version (629KB)</a>
+
+				<h3 id="education">Education</h3>
+				<p><strong>Carnegie Mellon University</strong> (M.S. in Computer Engineering) 09/2015 - 12/2016</p>
+				<ul>
+					<li>Teaching Assistant in Cloud Computing</li>
+				</ul>
+				<p><strong>Shanghai Jiao Tong University</strong>  (B.S. in Information Engineering) 09/2011 - 07/2015</p>
+				<hr />
+				<h3 id="workexperience">Work Experience</h3>
+				<p><strong>Google Ads & Commerce Payment Team (SDE Intern)</strong> 05 - 08/2016</p>
+				<ul>
+					<li>Prevented and alerted abnormal payments and found ~10 bugs in current payment system by analyzing complex payment business logic and one year’s historical payment data and building a validation and monitor framework.</li>
+					<li>Tested the monitor framework on production data (~10TB) using FlumeJava (Google’s internal data processing framework).
+						~10K lines of code submitted. Exceed expectation review (mid term).</li>
+				</ul>
+				<p><strong>High Performance Web Server Design (Cloud Computing Teaching Assistant)</strong> 10 - 12/2016</p>
+				<ul>
+					<li>Developed multiple ETL processes on 1TB data with $10 budget using MapReduce and Spark framework.
+						Built a read-only web service handling ~8K RPS from ~20M records(~70G data) with $1/hour budget on AWS, by fine-tuning HBase database, data compression, data balance and well-designed schema etc.</li>
+					<li>Built a read/write mixed web service handling ~10K RPS from ~20G data with $1/hour budget on AWS, by fine-tuning MySQL database, batching technique and well-designed concurrency model etc.</li>
+					<li>Identified and eliminated performance bottlenecks, achieving ~10x higher throughput compared with naive design, with tracing tools(perf), monitoring tools(top, vmstat, sar, Ganglia), visualization tools (flame graph) etc.</li>
+				</ul>
+				<hr />
+				<h3 id="selectedprojects">Selected Projects</h3>
+				<p><strong>Hybrid File System on SSD and AWS S3 with FUSE library</strong> 10 - 12/2016</p>
+				<ul>
+					<li>Implemented a size-aware file system storing large data on cloud (AWS S3) and small data/cache locally.
+						Implemented a file de-duplication layer to minimize storage and data transfer cost.</li>
+				</ul>
+				<p><strong>Object-oriented Design under Formal Design Process</strong> 10 - 11/2016</p>
+				<ul>
+					<li>Designed and implemented a Scrabble game supporting extensible rules and having a GUI, following formal design process i.e. domain description, sequence diagram, object diagram.</li>
+				</ul>
+				<p><strong>Computer Network Modules - Reinvent the Wheels</strong> 09 - 12/2016</p>
+				<ul>
+					<li>Implemented a robust HTTP server, supporting static files, CGI requests and HTTP persistent requests.</li>
+					<li>Implemented a TCP-like reliable network module on top of datagram socket system calls.</li>
+					<li>Implemented adaptive video streaming and locality-aware DNS services.</li>
+				</ul>
+				<p><strong>Distributed System Playground</strong> 03 - 05/2016                                                                                       </p>
+				<ul>
+					<li>Implemented a Chord-like distributed hash table, supporting consistent hashing, gossip protocol, failure detection, data replication and tunable consistency level.</li>
+					<li>Implemented a communication framework supporting reliable multicast communication.</li>
+				</ul>
+				<hr />
+				<h3 id="skills">Skills</h3>
+				<ul>
+					<li>Programming Language: Java, C/C++, Go, Python, Shell, Javascript, SQL</li>
+					<li>Platform and Tool: MapReduce/Hadoop, AWS(EC2, S3, ELB, Elastic MapReduce), Spark, Node.js, Git</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</article>
