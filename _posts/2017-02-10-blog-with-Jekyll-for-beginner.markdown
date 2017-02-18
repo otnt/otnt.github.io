@@ -73,7 +73,6 @@ This may sound abstract, let's have a dry run!
 
 This is the simple post HTML.
 
-{% raw %}
 ```html
 ---
 layout: default
@@ -89,7 +88,6 @@ layout: default
 	</article>
 </div>
 ```
-{% endraw %}
 
 **Now, stop reading and check out [Liquid for designers](https://github.com/Shopify/liquid/wiki/Liquid-for-Designers) to get a basic understanding of these curly brackets.**
 
@@ -120,7 +118,6 @@ Jekyll use [YAML](https://en.wikipedia.org/wiki/YAML) to manage meta data of you
 
 Now let's create file ```_layout/default.html``` with following content:
 
-{% raw %}
 ```html
 <!DOCTYPE html>
 <html>
@@ -130,7 +127,6 @@ Now let's create file ```_layout/default.html``` with following content:
   	</body>
 </html>
 ```
-{% endraw %}
 
 notice this is a complete HTML file and the ```{{ content }}``` placeholder is where the content of ```post.html``` should fit into.
 
@@ -148,7 +144,6 @@ This header has many things missing, but it works for our most simple blog.
 
 Therefore, after replacing everything, the actual HTML file for posts will be
 
-{% raw %}
 ```html
 <!DOCTYPE html>
 <html>
@@ -176,8 +171,6 @@ Therefore, after replacing everything, the actual HTML file for posts will be
   	</body>
 </html>
 ```
-{% endraw %}
-
 
 ### Edit home page
 
@@ -189,7 +182,6 @@ vim index.html
 
 Put the following content in your home page.
 
-{% raw %}
 ```html
 ---
 layout: default
@@ -206,7 +198,6 @@ layout: default
 {% endfor %}
 </ul>
 ```
-{% endraw %}
 
 It's okay if you don't understand ```prepend: site.baseurl```. The most important thing is Jekyll will search for all files under directory ```_post``` and insert their URLs in hyper links.
 
@@ -272,7 +263,6 @@ Jekyll comes with default article preview tag -- ```post.excerpt```.
 
 Modify our ```index.html``` page:
 
-{% raw %}
 ```html
 ---
 layout: default
@@ -293,7 +283,6 @@ layout: default
 {% endfor %}
 </ul>
 ```
-{% endraw %}
 
 We added a paragraph section to home page, which is a preview created by Jekyll ```post.excerpt``` tag. What it does is cut the first paragraph of the post.
 
@@ -334,7 +323,6 @@ Just as a supplementary, I suggest reading [this paragraph]([Jekyll plugin#liqui
 
 Now let's change our ```index.html```
 
-{% raw %}
 ```html
 ---
 layout: default
@@ -355,7 +343,6 @@ layout: default
 {% endfor %}
 </ul>
 ```
-{% endraw %}
 
 We see that instead of using Jekyll's built-in ```post.excerpt``` tag, we use customized filter ```build_preview``` with content of post as input, to create the post preview on home page. The filter ```strip_html``` is used to remove html tags so that the preview could be rendered correctly.
 
@@ -366,4 +353,3 @@ jekyll server
 ```
 
 And you should see the change.
-
