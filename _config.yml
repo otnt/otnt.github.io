@@ -52,3 +52,7 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 
 # Plugins
 gems: [jekyll-paginate]
+
+# Keep Tesla Fleet API public key path
+include:
+  - .well-known
